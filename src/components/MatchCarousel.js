@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, componentDidMount } from "react";
 import React from "react"; //zaradi compilerja, da ne javi napake pri <div> znotraj render/return
 import { CarouselData } from "../data/CarouselData";
 
@@ -14,11 +14,65 @@ class MatchCarousel extends Component {
     //in za Binding event handler.
     //v constructorju ne smeš klicat setState. Namesto tega, določi inicial state direktno to this.state.
     super(props);
+
     this.state = {
       sportId: 1,
       max: 10,
+      matchData: {},
+      dataIsRead: false,
+      selectedData: {},
     };
   }
+
+  //API data fetch start
+  //TODO in seperate packet /data/ApiFetch...
+  FetchData = () => {
+    fetch(
+      "https://lmt.fn.sportradar.com/demolmt/en/Etc:UTC/gismo/event_fullfeed/0/1/12074"
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        this.setState({
+          matchData: data,
+          dataIsRead: true,
+        });
+        //return data.json();
+      });
+  };
+  //API data fetch end
+
+  componentDidMount() {
+    if (!this.state.dataIsRead) {
+      console.log("getting data");
+      //console.log(this.FetchData());
+      this.FetchData();
+      const data = this.state.matchData;
+      console.log(data);
+
+      data.map((_data) => {
+        const selectedJson = _data.doc.event;
+        selectedJson.map((_sel) => {
+          if (_sel._doc === "sport" && _sel.name === "Soccer") {
+            console.log("Selected is soccer");
+          }
+        });
+      });
+    }
+  }
+
+  //TODO Could go to utils packet
+  //utils data start
+  GetDataBySportCategory(category) {
+    const selected = Object.values(this.state.matchData).find(
+      (j) => j._doc === "sport" && j._name === { category }
+    );
+    //this.setState({ selectedData: selected });
+    //console.log("getting data for category " + { category });
+    //console.log(this.state.selectedData);
+  }
+  //utils data end
 
   //da se izogneš side effectom ali subscriptionov v konstruktorju, uporabi componentDidMount instead
   //componentDidMount() is invoked immediately after a component is mounted (inserted into the tree). Initialization that requires DOM nodes should go here.
@@ -31,9 +85,10 @@ class MatchCarousel extends Component {
   //slike: display:none oz. block,
   //dotsi: "className="active" oz. ""
 
-  InitCarouselData() {
+  InitCarouselData = () => {
     if (CarouselData.length > 0) {
       //console.log("deluje");
+      //const data = this.FetchData();
 
       CarouselData.map((slideData, index) => {
         console.log("index=" + index);
@@ -49,16 +104,17 @@ class MatchCarousel extends Component {
     } else
       return (
         <div>
-          <p>Praznu!</p>
+          <p>Prazno!</p>
         </div>
       );
-  }
+  };
 
   InitTest = () => {
     return <p>DELAA</p>;
   };
 
   doRender() {
+    //this.GetDataBySportCategory("Soccer");
     return (
       <div className="carousel-container">
         <div className="carousel-wrapper">
