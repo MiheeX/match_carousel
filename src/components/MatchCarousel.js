@@ -1,6 +1,7 @@
 import { Component, componentDidMount } from "react";
 import React from "react"; //zaradi compilerja, da ne javi napake pri <div> znotraj render/return
 import { CarouselData } from "../data/CarouselData";
+import "./MatchCarousel.css";
 
 class MatchCarousel extends Component {
   //<{}, { sportId: Number, max: Number }>
@@ -21,7 +22,14 @@ class MatchCarousel extends Component {
       matchData: {},
       dataIsRead: false,
       selectedData: {},
+      page: 0,
     };
+
+    this.handleNext = this.handleNext.bind(this);
+    this.handlePrev = this.handlePrev.bind(this);
+    this.CarouselButtons = this.CarouselButtons.bind(this);
+    //this.handleDotsIndicator = this.handleDotsIndicator.bind(this);
+    this.dotIndicators = this.dotIndicators.bind(this);
   }
 
   //API data fetch start
@@ -51,6 +59,7 @@ class MatchCarousel extends Component {
       const data = this.state.matchData;
       console.log(data);
 
+      /*
       data.map((_data) => {
         const selectedJson = _data.doc.event;
         selectedJson.map((_sel) => {
@@ -59,11 +68,14 @@ class MatchCarousel extends Component {
           }
         });
       });
+    }    
+    */
     }
   }
 
   //TODO Could go to utils packet
   //utils data start
+
   GetDataBySportCategory(category) {
     const selected = Object.values(this.state.matchData).find(
       (j) => j._doc === "sport" && j._name === { category }
@@ -72,6 +84,7 @@ class MatchCarousel extends Component {
     //console.log("getting data for category " + { category });
     //console.log(this.state.selectedData);
   }
+
   //utils data end
 
   //da se izogneš side effectom ali subscriptionov v konstruktorju, uporabi componentDidMount instead
@@ -85,7 +98,7 @@ class MatchCarousel extends Component {
   //slike: display:none oz. block,
   //dotsi: "className="active" oz. ""
 
-  InitCarouselData = () => {
+  InitCarouselDataTest() {
     if (CarouselData.length > 0) {
       //console.log("deluje");
       //const data = this.FetchData();
@@ -107,11 +120,93 @@ class MatchCarousel extends Component {
           <p>Prazno!</p>
         </div>
       );
-  };
+  }
 
-  InitTest = () => {
-    return <p>DELAA</p>;
-  };
+  //button handles start
+  handleNext() {
+    let handledPage = this.state.page;
+    if (!(handledPage + 1 > CarouselData.length)) {
+      handledPage += 1;
+    }
+
+    this.setState({ page: handledPage });
+  }
+
+  handlePrev() {
+    let handledPage = this.state.page;
+    if (!(handledPage - 1 < 0)) {
+      handledPage -= 1;
+    }
+
+    this.setState({ page: handledPage });
+  }
+
+  handleDotsIndicator(index) {
+    this.setState({ page: index });
+    console.log("dot index:" + index);
+  }
+
+  dotIndicators() {
+    let indicators = [];
+    for (let i = 0; i < CarouselData.length; i++) {
+      indicators.push(this.dotIndicator(i));
+    }
+
+    return indicators;
+  }
+
+  dotIndicator(index) {
+    return (
+      <button
+        key={index}
+        onClick={this.handleDotsIndicator.bind(this, index)}
+        className={
+          index === this.state.page ? "dot-indicator-active" : "dot-indicator"
+        }
+      ></button>
+    );
+  }
+
+  CarouselButtons() {
+    return (
+      <>
+        <button onClick={this.handlePrev} className="btn-slider btn-prev">
+          Prev
+        </button>
+        <button onClick={this.handleNext} className="btn-slider btn-next">
+          Next
+        </button>
+        <span className="dot-indicators">
+          <this.dotIndicators />
+        </span>
+      </>
+    );
+  }
+  // button handles end
+
+  InitCarouselData() {
+    let vCarouselData = [];
+    for (let i = 0; i < CarouselData.length; i++) {
+      vCarouselData.push(this.CarouselData(i));
+    }
+
+    return vCarouselData;
+  }
+
+  CarouselData(index) {
+    //return <p>SCENKA DELA</p>;
+
+    //console.log(this.state.page);
+    console.log("index: " + index);
+
+    return (
+      <img
+        key={index}
+        src={CarouselData[index].image}
+        className={index === this.state.page ? "carousel-content" : "hidden"}
+      ></img>
+    );
+  }
 
   doRender() {
     //this.GetDataBySportCategory("Soccer");
@@ -121,6 +216,7 @@ class MatchCarousel extends Component {
           <div className="carousel-content-wrapper">
             <div className="carousel-content">{this.InitCarouselData()}</div>
           </div>
+          <this.CarouselButtons />
         </div>
       </div>
     );

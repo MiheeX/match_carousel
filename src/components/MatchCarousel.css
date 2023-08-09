@@ -1,5 +1,6 @@
 .carousel-container {
-  width: 100%;
+  width: 1000px;
+  height: 800px;
   display: flex;
   flex-direction: column;
 }
@@ -24,8 +25,9 @@
 }
 
 /* hide scrollbar in webkit browser */
+
 .carousel-content::-webkit-scrollbar,
-.carousel-content::-webkit-scrollbar {
+.carousel-content::-webkit-scrollb {
   display: none;
 }
 
@@ -35,10 +37,51 @@
   flex-grow: 1;
 }
 
-<!-- MihaR --- > .hidden {
+.hidden {
   display: none;
 }
 
 .shown {
   display: block;
+}
+
+.btn-slider {
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+}
+.btn-prev {
+  left: 1rem;
+  top: 50%;
+}
+.btn-next {
+  right: 1rem;
+  top: 50%;
+}
+
+.dot-indicators {
+  display: flex;
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+}
+
+.dot-indicator {
+  background-color: white;
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 100%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.dot-indicator-active {
+  background-color: grey;
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 100%;
+  border: none;
+  outline: none;
+  cursor: pointer;
 }
