@@ -23,6 +23,7 @@ class MatchCarousel extends Component {
       dataIsRead: false,
       selectedData: {},
       page: 0,
+      data2: {},
     };
 
     this.handleNext = this.handleNext.bind(this);
@@ -34,30 +35,55 @@ class MatchCarousel extends Component {
 
   //API data fetch start
   //TODO in seperate packet /data/ApiFetch...
-  FetchData = () => {
-    fetch(
-      "https://lmt.fn.sportradar.com/demolmt/en/Etc:UTC/gismo/event_fullfeed/0/1/12074"
-    )
-      .then((response) => {
-        return response.json();
+  fetchData = async () => {
+    const response = await fetch(
+      "https://lmt.fn.sportradar.com/demolmt/en/Etc:UTC/gismo/event_fullfeed/0/1/12074" //, {method: "GET"}
+    );
+    if (!response.ok) {
+      throw new Error("Error getting data!");
+    } else {
+      return response.json;
+    }
+  };
+
+  getData() {
+    this.fetchData()
+      /*
+      .then(() => {
+        console.log("getting data inside promise...");
       })
+      */
       .then((data) => {
+        console.log("Loading data...");
         this.setState({
           matchData: data,
           dataIsRead: true,
         });
-        //return data.json();
-      });
-  };
+      })
+      .then(() => {
+        console.log("Data loaded!");
+      })
+      .catch((e) => console.log("error getting data: " + e));
+  }
+
   //API data fetch end
 
   componentDidMount() {
     if (!this.state.dataIsRead) {
-      console.log("getting data");
+      console.log("reading data...");
       //console.log(this.FetchData());
-      this.FetchData();
-      const data = this.state.matchData;
-      console.log(data);
+      this.getData();
+      const data = this.state.matchData; //json
+      //const parsedData = JSON.parse(data);//parsed
+
+      this.setState({ data2: data });
+
+      //console.log(parsedData.doc[0].event);
+      //console.log(JSON.parse(JSON.parse(data.doc[0])));
+      /*data.doc.map((item, index)=>{
+        console.log('data log:' + item.event);
+      });
+      */
 
       /*
       data.map((_data) => {
