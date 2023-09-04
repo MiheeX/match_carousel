@@ -19,11 +19,10 @@ class MatchCarousel extends Component {
     this.state = {
       sportId: 1,
       max: 10,
-      matchData: {},
+      matchData: [],
+      realCategoryData: [],
       dataIsRead: false,
-      selectedData: {},
       page: 0,
-      data2: {},
     };
 
     this.handleNext = this.handleNext.bind(this);
@@ -39,26 +38,25 @@ class MatchCarousel extends Component {
     const response = await fetch(
       "https://lmt.fn.sportradar.com/demolmt/en/Etc:UTC/gismo/event_fullfeed/0/1/12074" //, {method: "GET"}
     );
+    //team flag PNG: "http://ls.betradar.com/ls/crest/big/<team_id>.png"
     if (!response.ok) {
       throw new Error("Error getting data!");
     } else {
-      return response.json;
+      return response.json();
     }
   };
 
-  getData() {
+  getAndStoreData() {
     this.fetchData()
-      /*
-      .then(() => {
-        console.log("getting data inside promise...");
-      })
-      */
       .then((data) => {
         console.log("Loading data...");
+
         this.setState({
-          matchData: data,
+          matchData: data.doc[0].data,
           dataIsRead: true,
         });
+
+        console.log(data.doc[0].data);
       })
       .then(() => {
         console.log("Data loaded!");
@@ -71,31 +69,7 @@ class MatchCarousel extends Component {
   componentDidMount() {
     if (!this.state.dataIsRead) {
       console.log("reading data...");
-      //console.log(this.FetchData());
-      this.getData();
-      const data = this.state.matchData; //json
-      //const parsedData = JSON.parse(data);//parsed
-
-      this.setState({ data2: data });
-
-      //console.log(parsedData.doc[0].event);
-      //console.log(JSON.parse(JSON.parse(data.doc[0])));
-      /*data.doc.map((item, index)=>{
-        console.log('data log:' + item.event);
-      });
-      */
-
-      /*
-      data.map((_data) => {
-        const selectedJson = _data.doc.event;
-        selectedJson.map((_sel) => {
-          if (_sel._doc === "sport" && _sel.name === "Soccer") {
-            console.log("Selected is soccer");
-          }
-        });
-      });
-    }    
-    */
+      this.getAndStoreData();
     }
   }
 
@@ -210,7 +184,25 @@ class MatchCarousel extends Component {
   }
   // button handles end
 
+  testModelData(pId) {
+    const parsedData = this.state.matchData;
+    console.log("test modeling data");
+    console.log(parsedData);
+
+    parsedData.map((_data) => {
+      if (_data._id === pId) {
+        console.log("Selected ID = " + _data._id);
+        //this.setState({ realCategoryData: _data._id }); preveč loopa...
+        //console.log(this.state.realCategoryData);
+      } else {
+        console.log("No ID selected!");
+      }
+    });
+  }
+
   InitCarouselData() {
+    this.testModelData(6);
+
     let vCarouselData = [];
     for (let i = 0; i < CarouselData.length; i++) {
       vCarouselData.push(this.CarouselData(i));
@@ -223,7 +215,7 @@ class MatchCarousel extends Component {
     //return <p>SCENKA DELA</p>;
 
     //console.log(this.state.page);
-    console.log("index: " + index);
+    //console.log("index: " + index);
 
     return (
       <img
