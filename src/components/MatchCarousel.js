@@ -184,24 +184,94 @@ class MatchCarousel extends Component {
   }
   // button handles end
 
-  testModelData(pId) {
+  //getting and parsing matches data start
+  //schema: realcategories/tournamnets/matches/match(obj)
+  //get/parse matches initial data
+  getRealCategoriesData(pSportId) {
     const parsedData = this.state.matchData;
     console.log("test modeling data");
     console.log(parsedData);
+    var realCategoryData = [];
 
-    parsedData.map((_data) => {
-      if (_data._id === pId) {
-        console.log("Selected ID = " + _data._id);
-        //this.setState({ realCategoryData: _data._id }); preveč loopa...
-        //console.log(this.state.realCategoryData);
-      } else {
-        console.log("No ID selected!");
-      }
-    });
+    if (pSportId === undefined) {
+      parsedData.map((_data) => {
+        _data.realcategories.map((_data2) => {
+          realCategoryData.push(_data2);
+        });
+      });
+    } else {
+      parsedData
+        .filter((filteredData) => filteredData._id === pSportId)
+        .map((_data) => {
+          realCategoryData = _data.realcategories;
+          console.log("Selected ID = " + _data._id);
+        });
+    }
+    console.log("realcategory data");
+    console.log(realCategoryData);
+    //setState ne sme biti v render funkciji
+    //this.setState({ realCategoryData: realCategoryData });
+    return realCategoryData;
   }
 
+  //get tournaments data filtered by sport_id and country_id
+  getTournamentsData(pSportId, pCountryId) {
+    var tournamentsData = [];
+    if (pCountryId === undefined) {
+      this.getRealCategoriesData(pSportId).map((_data) => {
+        _data.tournaments.map((_data2) => {
+          tournamentsData.push(_data2);
+        });
+      });
+    } else {
+      this.getRealCategoriesData(pSportId)
+        .filter((filteredData) => filteredData._id === pCountryId)
+        .map((_data) => {
+          tournamentsData = _data.tournaments;
+        });
+    }
+    console.log("tournaments data:...");
+    console.log(tournamentsData);
+    return tournamentsData;
+  }
+
+  //get multiple matches data, filtered by sport_id and country_id
+  getMatchesData(pSportId, pCountryId) {
+    var matchesData = [];
+    this.getTournamentsData(pSportId, pCountryId).map((_data) => {
+      _data.matches.map((_data2) => {
+        matchesData.push(_data2);
+      });
+    });
+    //console.log("outside data matches data:...");
+    //console.log(matchesData);
+    console.log(matchesData);
+    return matchesData;
+  }
+
+  //Get single match data by "_id"
+  getMatchDataById(pMatchId) {
+    var matchData = [];
+    this.getMatchesData()
+      .filter((filteredData) => filteredData._id === pMatchId)
+      .map((_data) => {
+        matchData = _data;
+      });
+    console.log("Single match data...");
+    console.log(matchData);
+    return matchData;
+  }
+  //getting and parsing matches data end
+
+  //set and use data
   InitCarouselData() {
-    this.testModelData(6);
+    //test case for matches data!
+    //this.getMatchesData(1,1); //ne sme biti v render funkciji, drugače se ponavlja...
+    //this.getRealCategoriesData(); //OK undefined
+    //this.getTournamentsData(undefined, undefined); //OK undefined
+    //this.getMatchesData();
+    this.getMatchDataById(43523147);
+    //
 
     let vCarouselData = [];
     for (let i = 0; i < CarouselData.length; i++) {
@@ -210,6 +280,7 @@ class MatchCarousel extends Component {
 
     return vCarouselData;
   }
+  //
 
   CarouselData(index) {
     //return <p>SCENKA DELA</p>;
