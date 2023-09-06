@@ -1,0 +1,83 @@
+.league-name {
+  left: 40%;
+  position: absolute;
+  display: block;
+  font-size: 40px;
+  color: white;
+}
+
+.league-type {
+  left: 45%;
+  top: 12%;
+  position: absolute;
+  display: block;
+  font-size: 20px;
+  color: white;
+}
+
+.flag-left {
+  display: block;
+  position: absolute;
+  width: 200;
+  height: 150;
+  top: 30%;
+  left: 5%;
+  border: 2px solid white;
+}
+
+.flag-right {
+  display: block;
+  position: absolute;
+  width: 200;
+  height: 150;
+  top: 30%;
+  right: 5%;
+  border: 2px solid white;
+}
+
+.result {
+  display: inline;
+  position: absolute;
+  width: 200;
+  height: 150;
+  top: 30%;
+  left: 38%;
+  border: 2px solid white;
+}
+
+.result-text {
+  top: 10%;
+  left: 38%;
+  position: absolute;
+  display: block;
+  font-size: 40px;
+  color: white;
+}
+
+.team-left {
+  display: block;
+  position: absolute;
+  top: 58%;
+  left: 7%;
+  font-size: 30px;
+  color: white;
+}
+
+.team-right {
+  display: block;
+  position: absolute;
+  top: 58%;
+  right: 7%;
+  font-size: 30px;
+  color: white;
+}
+
+.match-status {
+  left: 40%;
+  bottom: 10%;
+  position: absolute;
+  display: block;
+  font-size: 20px;
+  color: white;
+  border: 2px solid white;
+}

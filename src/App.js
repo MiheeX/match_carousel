@@ -27,7 +27,7 @@ function App() {
 */
 class App extends Component {
   render() {
-    return <MatchCarousel />;
+    return <MatchCarousel max={15} sportId={1} />;
   }
 }
 

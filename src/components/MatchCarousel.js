@@ -2,6 +2,7 @@ import { Component, componentDidMount } from "react";
 import React from "react"; //zaradi compilerja, da ne javi napake pri <div> znotraj render/return
 import { CarouselData } from "../data/CarouselData";
 import "./MatchCarousel.css";
+import Card from "./Card";
 
 class MatchCarousel extends Component {
   //<{}, { sportId: Number, max: Number }>
@@ -19,8 +20,10 @@ class MatchCarousel extends Component {
     this.state = {
       sportId: 1,
       max: 10,
-      matchData: [],
+      apiData: [],
+      matchesData: [],
       realCategoryData: [],
+      matchesCount: 0,
       dataIsRead: false,
       page: 0,
     };
@@ -50,10 +53,15 @@ class MatchCarousel extends Component {
     this.fetchData()
       .then((data) => {
         console.log("Loading data...");
-
+        const $data = this.getMatchesData(this.props.sportId).slice(
+          0,
+          this.props.max
+        );
         this.setState({
-          matchData: data.doc[0].data,
+          apiData: data.doc[0].data,
           dataIsRead: true,
+          matchesData: $data,
+          matchesCount: $data.length,
         });
 
         console.log(data.doc[0].data);
@@ -73,20 +81,6 @@ class MatchCarousel extends Component {
     }
   }
 
-  //TODO Could go to utils packet
-  //utils data start
-
-  GetDataBySportCategory(category) {
-    const selected = Object.values(this.state.matchData).find(
-      (j) => j._doc === "sport" && j._name === { category }
-    );
-    //this.setState({ selectedData: selected });
-    //console.log("getting data for category " + { category });
-    //console.log(this.state.selectedData);
-  }
-
-  //utils data end
-
   //da se izogneš side effectom ali subscriptionov v konstruktorju, uporabi componentDidMount instead
   //componentDidMount() is invoked immediately after a component is mounted (inserted into the tree). Initialization that requires DOM nodes should go here.
   //If you need to load data from a remote endpoint, this is a good place to instantiate the network request.
@@ -98,6 +92,7 @@ class MatchCarousel extends Component {
   //slike: display:none oz. block,
   //dotsi: "className="active" oz. ""
 
+  /*
   InitCarouselDataTest() {
     if (CarouselData.length > 0) {
       //console.log("deluje");
@@ -121,11 +116,12 @@ class MatchCarousel extends Component {
         </div>
       );
   }
+  */
 
   //button handles start
   handleNext() {
     let handledPage = this.state.page;
-    if (!(handledPage + 1 > CarouselData.length)) {
+    if (!(handledPage + 1 > this.state.matchesCount - 1)) {
       handledPage += 1;
     }
 
@@ -148,7 +144,7 @@ class MatchCarousel extends Component {
 
   dotIndicators() {
     let indicators = [];
-    for (let i = 0; i < CarouselData.length; i++) {
+    for (let i = 0; i < this.state.matchesCount; i++) {
       indicators.push(this.dotIndicator(i));
     }
 
@@ -188,7 +184,7 @@ class MatchCarousel extends Component {
   //schema: realcategories/tournamnets/matches/match(obj)
   //get/parse matches initial data
   getRealCategoriesData(pSportId) {
-    const parsedData = this.state.matchData;
+    const parsedData = this.state.apiData;
     console.log("test modeling data");
     console.log(parsedData);
     var realCategoryData = [];
@@ -235,7 +231,7 @@ class MatchCarousel extends Component {
     return tournamentsData;
   }
 
-  //get multiple matches data, filtered by sport_id and country_id
+  //get multiple matches data, filtered by sport_id(sport_id) and country_id(realcategory_id)
   getMatchesData(pSportId, pCountryId) {
     var matchesData = [];
     this.getTournamentsData(pSportId, pCountryId).map((_data) => {
@@ -246,6 +242,7 @@ class MatchCarousel extends Component {
     //console.log("outside data matches data:...");
     //console.log(matchesData);
     console.log(matchesData);
+    //this.setState({ matchesCount: matchesData.length });
     return matchesData;
   }
 
@@ -265,18 +262,27 @@ class MatchCarousel extends Component {
 
   //set and use data
   InitCarouselData() {
-    //test case for matches data!
+    //test cases for matches data!
     //this.getMatchesData(1,1); //ne sme biti v render funkciji, drugače se ponavlja...
     //this.getRealCategoriesData(); //OK undefined
     //this.getTournamentsData(undefined, undefined); //OK undefined
     //this.getMatchesData();
-    this.getMatchDataById(43523147);
+    //this.getMatchDataById(43523147);
     //
 
     let vCarouselData = [];
+    /*
     for (let i = 0; i < CarouselData.length; i++) {
       vCarouselData.push(this.CarouselData(i));
     }
+    */
+    var $length = this.state.matchesCount;
+    for (let i = 0; i < $length; i++) {
+      vCarouselData.push(this.CarouselData(i));
+    }
+    console.log("carouselData length:" + $length);
+
+    //vCarouselData = this.getMatchesData(1);
 
     return vCarouselData;
   }
@@ -288,12 +294,20 @@ class MatchCarousel extends Component {
     //console.log(this.state.page);
     //console.log("index: " + index);
 
+    /*
     return (
       <img
         key={index}
         src={CarouselData[index].image}
         className={index === this.state.page ? "carousel-content" : "hidden"}
       ></img>
+    );
+    */
+    return (
+      <Card
+        index={this.state.page}
+        data={this.state.matchesData[this.state.page]}
+      />
     );
   }
 
