@@ -29,6 +29,7 @@ class Card extends Component {
       />
     );
   }
+
   setImage(pStatus) {
     console.log({ imgPostmatch });
     switch (pStatus) {
@@ -41,21 +42,53 @@ class Card extends Component {
     }
   }
 
+  setResult(pStatus) {
+    switch (pStatus) {
+      case 100:
+        return this.props.data.result.home + ":" + this.props.data.result.away;
+      case 0:
+        return this.props.data._dt.time + "\r" + this.props.data._dt.date;
+      default:
+        return this.props.data.result.home + ":" + this.props.data.result.away;
+    }
+  }
+
+  setStatusName(pStatus) {
+    switch (pStatus) {
+      case 100:
+        return "ENDED";
+      case 0:
+        return "NOT STARTED";
+      default:
+        return "GAMETIME";
+    }
+  }
+
   render() {
+    /*
     const bckgImg = {
       width: "850",
       height: "500",
-      display: "flex",
+      //display: "flex",
       position: "relative",
       // text-align: "center",
     };
+    */
 
     console.log("Card.js LOG:");
     console.log(this.props.data);
 
     return (
       <>
-        <div style={bckgImg}>
+        <div
+          key={this.props.index}
+          //style={bckgImg}
+          className={
+            this.props.index === this.props.page
+              ? "carousel-contentt active"
+              : "hidden"
+          }
+        >
           {this.setImage(this.props.data.status._id)}
           <div>
             <p className="league-name">Naziv Lige {this.props.index}</p>
@@ -66,13 +99,14 @@ class Card extends Component {
 
           <div className="result">
             <p className="result-text">
-              {this.props.data.result.home}:{this.props.data.result.away}
+              {/*this.props.data.result.home}:{this.props.data.result.away*/}
+              {this.setResult(this.props.data.status._id)}
             </p>
           </div>
           <p className="team-left">{this.props.data.teams.home.name}</p>
           <p className="team-right">{this.props.data.teams.away.name}</p>
           <div className="match-status">
-            <p>STATUS TEKME: {this.props.data.status._id}</p>
+            <p>{this.setStatusName(this.props.data.status._id)}</p>
           </div>
         </div>
       </>

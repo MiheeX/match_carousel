@@ -276,11 +276,12 @@ class MatchCarousel extends Component {
       vCarouselData.push(this.CarouselData(i));
     }
     */
+
     var $length = this.state.matchesCount;
     for (let i = 0; i < $length; i++) {
       vCarouselData.push(this.CarouselData(i));
+      console.log("carouselData length:" + $length + "and i:" + i);
     }
-    console.log("carouselData length:" + $length);
 
     //vCarouselData = this.getMatchesData(1);
 
@@ -288,7 +289,7 @@ class MatchCarousel extends Component {
   }
   //
 
-  CarouselData(index) {
+  CarouselData(pIndex) {
     //return <p>SCENKA DELA</p>;
 
     //console.log(this.state.page);
@@ -305,8 +306,9 @@ class MatchCarousel extends Component {
     */
     return (
       <Card
-        index={this.state.page}
-        data={this.state.matchesData[this.state.page]}
+        index={pIndex}
+        page={this.state.page}
+        data={this.state.matchesData[pIndex]}
       />
     );
   }
@@ -317,7 +319,9 @@ class MatchCarousel extends Component {
       <div className="carousel-container">
         <div className="carousel-wrapper">
           <div className="carousel-content-wrapper">
+            {/*carousel*/}
             <div className="carousel-content">{this.InitCarouselData()}</div>
+            {/*Slides and 'slide' inside in Card.js*/}
           </div>
           <this.CarouselButtons />
         </div>
