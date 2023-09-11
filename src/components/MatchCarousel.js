@@ -121,8 +121,10 @@ class MatchCarousel extends Component {
   //button handles start
   handleNext() {
     let handledPage = this.state.page;
-    if (!(handledPage + 1 > this.state.matchesCount - 1)) {
+    if (!(handledPage + 1 >= this.state.matchesCount)) {
       handledPage += 1;
+    } else {
+      handledPage = 0;
     }
 
     this.setState({ page: handledPage });
@@ -132,6 +134,8 @@ class MatchCarousel extends Component {
     let handledPage = this.state.page;
     if (!(handledPage - 1 < 0)) {
       handledPage -= 1;
+    } else {
+      handledPage = this.state.matchesCount - 1;
     }
 
     this.setState({ page: handledPage });
@@ -167,10 +171,10 @@ class MatchCarousel extends Component {
     return (
       <>
         <button onClick={this.handlePrev} className="btn-slider btn-prev">
-          Prev
+          <i className="fa fa-chevron-left"></i>
         </button>
         <button onClick={this.handleNext} className="btn-slider btn-next">
-          Next
+          <i className="fa fa-chevron-right"></i>
         </button>
         <span className="dot-indicators">
           <this.dotIndicators />
@@ -317,13 +321,17 @@ class MatchCarousel extends Component {
     //this.GetDataBySportCategory("Soccer");
     return (
       <div className="carousel-container">
+        {/*content*/}
         <div className="carousel-wrapper">
+          {/*carousel-content*/}
           <div className="carousel-content-wrapper">
-            {/*carousel*/}
-            <div className="carousel-content">{this.InitCarouselData()}</div>
-            {/*Slides and 'slide' inside in Card.js*/}
+            {/*slideshow*/}
+            <div className="carousel-content">
+              {/*Slides (slideshow-wrapper)*/}
+              {this.InitCarouselData()}
+            </div>
+            <this.CarouselButtons />
           </div>
-          <this.CarouselButtons />
         </div>
       </div>
     );

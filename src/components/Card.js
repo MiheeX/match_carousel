@@ -79,15 +79,16 @@ class Card extends Component {
     console.log(this.props.data);
 
     return (
+      //slideshow
       <>
         <div
           key={this.props.index}
           //style={bckgImg}
           className={
             this.props.index === this.props.page
-              ? "carousel-contentt active"
-              : "hidden"
-          }
+              ? "carousel-content active"
+              : "carousel-content hidden"
+          } //slide
         >
           {this.setImage(this.props.data.status._id)}
           <div>

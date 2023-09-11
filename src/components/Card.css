@@ -1,23 +1,5 @@
-@keyframes heartbeat {
-  0% {
-    transform: scale(0);
-  }
-  25% {
-    transform: scale(1.2);
-  }
-  50% {
-    transform: scale(1);
-  }
-  75% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
 .league-name {
-  left: 35%;
-  top: 0%;
+  left: 19rem;
   position: absolute;
   display: block;
   font-size: 40px;
@@ -25,8 +7,8 @@
 }
 
 .league-type {
-  left: 45%;
-  top: 20%;
+  left: 23rem;
+  top: 4.5rem;
   position: absolute;
   display: block;
   font-size: 20px;
@@ -36,20 +18,20 @@
 .flag-left {
   display: block;
   position: absolute;
-  width: 200;
-  height: 150;
+  width: 200px;
+  height: 150px;
   top: 30%;
-  left: 5%;
+  left: 2rem;
   border: 2px solid white;
 }
 
 .flag-right {
   display: block;
   position: absolute;
-  width: 200;
-  height: 150;
+  width: 200px;
+  height: 150px;
   top: 30%;
-  right: 5%;
+  right: 2rem;
   border: 2px solid white;
 }
 
@@ -59,13 +41,13 @@
   width: 200;
   height: 150;
   top: 30%;
-  left: 45%;
+  left: 38%;
   border: 2px solid white;
 }
 
 .result-text {
   top: 10%;
-  left: 8%;
+  left: 4rem;
   position: absolute;
   display: block;
   font-size: 40px;
@@ -77,7 +59,7 @@
   display: block;
   position: absolute;
   top: 58%;
-  left: 7%;
+  left: 5rem;
   font-size: 30px;
   color: white;
 }
@@ -86,13 +68,13 @@
   display: block;
   position: absolute;
   top: 58%;
-  left: 75%;
+  right: 4rem;
   font-size: 30px;
   color: white;
 }
 
 .match-status {
-  left: 37%;
+  left: 22.5rem;
   bottom: 10%;
   position: absolute;
   display: block;
@@ -102,68 +84,33 @@
 }
 
 /*---------------------------*/
-.carousel-contentt {
-  position: absolute;
-  z-index: 0;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  transition: z-index 0ms 250ms;
-
-  .bckg-img {
-    position: relative;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.2);
-    transition: 500ms cubic-bezier(0.17, 0.67, 0.55, 1.43);
-    transform: scale(1);
-    opacity: 1;
-  }
-
-  &.preactivede {
-    .slider-single-image {
-      transform: translateX(-50%) scale(0);
-    }
-  }
-  &.preactive {
-    z-index: 1;
-    .slider-single-image {
-      opacity: 0.3;
-      transform: translateX(-25%) scale(0.8);
-    }
-  }
-  &.proactive {
-    z-index: 1;
-    .slider-single-image {
-      opacity: 0.3;
-      transform: translateX(25%) scale(0.8);
-    }
-  }
-  &.proactivede {
-    .slider-single-image {
-      transform: translateX(50%) scale(0);
-    }
-  }
-  &.active {
-    z-index: 2;
-  }
+.carousel-content {
+  position: fixed;
+  float: left;
+  transition: all 1s;
+  width: 50rem;
+  height: 30rem;
 }
 
-.hidden {
-  display: none !important;
+/*
+.carousel-content::before {
+  content: "";
+  background-image: url("https://www.agernic.com/uploads/image-opacity.jpg");
+  background-repeat: no-repeat;
+  opacity: 0.4;
+  width: 100%;
+}
+*/
 
-  .bckg-img {
-    position: relative;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.2);
-    transition: 500ms cubic-bezier(0.17, 0.67, 0.55, 1.43);
-    transform: scale(0);
-    opacity: 0;
-  }
+.hidden {
+  opacity: 0;
+  transform: translateX(-50%);
+}
+
+.active {
+  opacity: 1;
+}
+
+.bckg-img {
+  border-radius: 8%;
 }
