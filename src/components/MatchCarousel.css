@@ -16,19 +16,21 @@
 }
 
 .btn-prev {
-  left: 32rem;
+  right: 100%;
   top: 15rem;
 }
 .btn-next {
-  right: 32rem;
+  left: 100%;
   top: 15rem;
 }
 
 .dot-indicators {
   display: flex;
   position: absolute;
-  bottom: 9rem;
-  left: 56rem;
+  bottom: 2%;
+
+  left: 40%;
+  right: auto;
 }
 
 .dot-indicator {
@@ -51,6 +53,7 @@
   cursor: pointer;
 }
 /*-----------------------*/
+/*
 .carousel-container {
   left: 10rem;
   right: 10rem;
@@ -64,23 +67,25 @@
   height: 50px;
   border: 2px solid red;
 }
-
+*/
 .carousel-content-wrapper {
   display: flex;
+  position: relative;
   width: auto;
-  overflow: hidden;
-  left: 10rem;
-  right: 10rem;
-  height: 80px;
+  margin-left: 3em;
+  margin-right: 10em;
+  height: 500px;
+  max-width: 800px;
+  max-height: 500px;
+  min-width: 600px;
+  min-height: 300px;
   border: 2px solid turquoise;
 }
 
 .carousel-content {
-  align-content: center;
-  display: flex;
   position: relative;
-  width: 800rem;
-  left: 35rem;
-  right: 35rem;
-  border-radius: 8%;
+  align-content: center;
+  flex: 0 0 100%;
+  display: inline-flex;
+  overflow: hidden;
 }
