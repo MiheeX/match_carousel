@@ -26,6 +26,7 @@ class MatchCarousel extends Component {
       matchesCount: 0,
       dataIsRead: false,
       page: 0,
+      nextInterval: 3000,
     };
 
     this.handleNext = this.handleNext.bind(this);
@@ -214,6 +215,26 @@ class MatchCarousel extends Component {
     return realCategoryData;
   }
 
+  getRealCategoriesDataById(pRealCatId) {
+    var realCategoryData = [];
+    this.getRealCategoriesData(this.props.sportId)
+      .filter((filteredData) => filteredData._id === pRealCatId)
+      .map((_data) => {
+        realCategoryData = _data;
+      });
+    return realCategoryData;
+  }
+
+  getTournamentsDataById(pTournamentId) {
+    var tournamentData = [];
+    this.getTournamentsData(this.props.sportId)
+      .filter((filteredData) => filteredData._id === pTournamentId)
+      .map((_data) => {
+        tournamentData = _data;
+      });
+    return tournamentData;
+  }
+
   //get tournaments data filtered by sport_id and country_id
   getTournamentsData(pSportId, pCountryId) {
     var tournamentsData = [];
@@ -272,6 +293,7 @@ class MatchCarousel extends Component {
     //this.getTournamentsData(undefined, undefined); //OK undefined
     //this.getMatchesData();
     //this.getMatchDataById(43523147);
+    //this.getRealCategoriesDataById(395);
     //
 
     let vCarouselData = [];
@@ -308,16 +330,26 @@ class MatchCarousel extends Component {
       ></img>
     );
     */
+    var $matchesData = this.state.matchesData[pIndex];
     return (
       <Card
         index={pIndex}
         page={this.state.page}
-        data={this.state.matchesData[pIndex]}
+        matchData={$matchesData} //če ne prikaže, je lahko tukaj pri var problem
+        rcData={this.getRealCategoriesDataById($matchesData._rcid)}
+        tData={this.getTournamentsDataById($matchesData._tid)}
       />
     );
   }
 
   doRender() {
+    //auto move to next
+    /*
+    setInterval(() => {
+      this.handleNext();
+    }, 5000);
+    */
+
     //this.GetDataBySportCategory("Soccer");
     return (
       <div className="carousel-container">
@@ -341,5 +373,10 @@ class MatchCarousel extends Component {
     return this.doRender();
   }
 }
+
+MatchCarousel.defaultProps = {
+  max: 10,
+  sportId: undefined,
+};
 
 export default MatchCarousel;

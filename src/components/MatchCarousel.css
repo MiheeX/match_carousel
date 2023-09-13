@@ -16,12 +16,20 @@
 }
 
 .btn-prev {
-  right: 100%;
-  top: 15rem;
+  position: absolute;
+  right: 93%;
+  top: 0;
+  height: 100%;
+  width: 60px;
+  color: white;
 }
 .btn-next {
-  left: 100%;
-  top: 15rem;
+  position: absolute;
+  left: 93%;
+  top: 0;
+  height: 100%;
+  width: 60px;
+  color: white;
 }
 
 .dot-indicators {
