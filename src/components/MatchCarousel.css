@@ -1,34 +1,41 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
 
-.btn-slider {
-  position: absolute;
+.btn-wrapper {
+  /*position: relative;*/
+  left: 0;
   width: 2rem;
-  height: 2rem;
+  height: 100%;
   background-color: transparent;
-  border: none;
+  /*border: 2px solid red;*/
   transition: all 150ms;
 }
 
-.btn-slider:hover {
+.btn-wrapper:hover {
   cursor: pointer;
   background-color: rgba(108, 122, 137, 0.15);
-  border-radius: 22%;
 }
 
 .btn-prev {
   position: absolute;
-  right: 93%;
+  /* right: 93%;*/
+  left: 0;
   top: 0;
   height: 100%;
   width: 60px;
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+  /*border-color: transparent;*/
   color: white;
 }
 .btn-next {
   position: absolute;
-  left: 93%;
+  left: 92%;
   top: 0;
   height: 100%;
   width: 60px;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  /*border-color: transparent;*/
   color: white;
 }
 
@@ -36,7 +43,6 @@
   display: flex;
   position: absolute;
   bottom: 2%;
-
   left: 40%;
   right: auto;
 }
@@ -77,6 +83,7 @@
 }
 */
 .carousel-content-wrapper {
+  /*display: flex;*/
   display: flex;
   position: relative;
   width: auto;
@@ -88,6 +95,7 @@
   min-width: 600px;
   min-height: 300px;
   border: 2px solid turquoise;
+  overflow: hidden;
 }
 
 .carousel-content {
@@ -95,5 +103,24 @@
   align-content: center;
   flex: 0 0 100%;
   display: inline-flex;
-  overflow: hidden;
+  /*overflow: hidden;*/
+  /*transform: translateX(-100%);*/
+}
+
+@media only screen and (min-width: 870px) {
+  .carousel-content-wrapper {
+    border: 3px solid red;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .carousel-content-wrapper {
+    border: 3px solid green;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .carousel-content-wrapper {
+    border: 3px solid yellow;
+  }
 }

@@ -2,6 +2,14 @@ import { Component, componentDidMount } from "react";
 import React from "react"; //zaradi compilerja, da ne javi napake pri <div> znotraj render/return
 import { CarouselData } from "../data/CarouselData";
 import "./MatchCarousel.css";
+/*import {
+  fetchData,
+  getTournamentsDataById,
+  getRealCategoriesDataById,
+  getMatchesData,
+  _apiData,
+  _sportId,
+} from "../data/ApiFetch";*/
 import Card from "./Card";
 
 class MatchCarousel extends Component {
@@ -27,6 +35,8 @@ class MatchCarousel extends Component {
       dataIsRead: false,
       page: 0,
       nextInterval: 3000,
+      timerCountdownSeconds: 4000,
+      timeoutID: 4000,
     };
 
     this.handleNext = this.handleNext.bind(this);
@@ -35,6 +45,34 @@ class MatchCarousel extends Component {
     //this.handleDotsIndicator = this.handleDotsIndicator.bind(this);
     this.dotIndicators = this.dotIndicators.bind(this);
   }
+
+  /*
+  getAndStoreData() {
+    fetchData()
+      .then((data) => {
+        console.log("Loading data...");
+        const $data = getMatchesData(this.props.sportId).slice(
+          0,
+          this.props.max
+        );
+        this.setState({
+          apiData: data.doc[0].data,
+          dataIsRead: true,
+          matchesData: $data,
+          matchesCount: $data.length,
+        });
+
+        _apiData = data.doc[0].data;
+        _sportId = this.props.sportId;
+
+        console.log(data.doc[0].data);
+      })
+      .then(() => {
+        console.log("Data loaded!");
+      })
+      .catch((e) => console.log("error getting data: " + e));
+  }
+  */
 
   //API data fetch start
   //TODO in seperate packet /data/ApiFetch...
@@ -74,116 +112,6 @@ class MatchCarousel extends Component {
   }
 
   //API data fetch end
-
-  componentDidMount() {
-    if (!this.state.dataIsRead) {
-      console.log("reading data...");
-      this.getAndStoreData();
-    }
-  }
-
-  //da se izogneš side effectom ali subscriptionov v konstruktorju, uporabi componentDidMount instead
-  //componentDidMount() is invoked immediately after a component is mounted (inserted into the tree). Initialization that requires DOM nodes should go here.
-  //If you need to load data from a remote endpoint, this is a good place to instantiate the network request.
-  //This method is a good place to set up any subscriptions. If you do that, don’t forget to unsubscribe in componentWillUnmount().
-  //You may call setState() immediately in componentDidMount(). It will trigger an extra rendering, but it will happen before the browser updates the screen.
-  // In most cases, you should be able to assign the initial state in the constructor().
-  //It can, however, be necessary for cases like modals and tooltips when you need to measure a DOM node before rendering something that depends on its size or position.
-
-  //slike: display:none oz. block,
-  //dotsi: "className="active" oz. ""
-
-  /*
-  InitCarouselDataTest() {
-    if (CarouselData.length > 0) {
-      //console.log("deluje");
-      //const data = this.FetchData();
-
-      CarouselData.map((slideData, index) => {
-        console.log("index=" + index);
-        console.log("img for index" + slideData.image);
-
-        if (index === 3) {
-          console.log("znotraj map-a:" + slideData.image);
-          return <p>SCENKA DELA</p>;
-        } else {
-          return <p>Nope!</p>;
-        }
-      });
-    } else
-      return (
-        <div>
-          <p>Prazno!</p>
-        </div>
-      );
-  }
-  */
-
-  //button handles start
-  handleNext() {
-    let handledPage = this.state.page;
-    if (!(handledPage + 1 >= this.state.matchesCount)) {
-      handledPage += 1;
-    } else {
-      handledPage = 0;
-    }
-
-    this.setState({ page: handledPage });
-  }
-
-  handlePrev() {
-    let handledPage = this.state.page;
-    if (!(handledPage - 1 < 0)) {
-      handledPage -= 1;
-    } else {
-      handledPage = this.state.matchesCount - 1;
-    }
-
-    this.setState({ page: handledPage });
-  }
-
-  handleDotsIndicator(index) {
-    this.setState({ page: index });
-    console.log("dot index:" + index);
-  }
-
-  dotIndicators() {
-    let indicators = [];
-    for (let i = 0; i < this.state.matchesCount; i++) {
-      indicators.push(this.dotIndicator(i));
-    }
-
-    return indicators;
-  }
-
-  dotIndicator(index) {
-    return (
-      <button
-        key={index}
-        onClick={this.handleDotsIndicator.bind(this, index)}
-        className={
-          index === this.state.page ? "dot-indicator-active" : "dot-indicator"
-        }
-      ></button>
-    );
-  }
-
-  CarouselButtons() {
-    return (
-      <>
-        <button onClick={this.handlePrev} className="btn-slider btn-prev">
-          <i className="fa fa-chevron-left"></i>
-        </button>
-        <button onClick={this.handleNext} className="btn-slider btn-next">
-          <i className="fa fa-chevron-right"></i>
-        </button>
-        <span className="dot-indicators">
-          <this.dotIndicators />
-        </span>
-      </>
-    );
-  }
-  // button handles end
 
   //getting and parsing matches data start
   //schema: realcategories/tournamnets/matches/match(obj)
@@ -285,6 +213,151 @@ class MatchCarousel extends Component {
   }
   //getting and parsing matches data end
 
+  componentDidMount() {
+    if (!this.state.dataIsRead) {
+      console.log("reading data...");
+      this.getAndStoreData();
+    }
+    this.HandleAutoChangeSLides();
+  }
+
+  componentDidUpdate(props) {}
+
+  //da se izogneš side effectom ali subscriptionov v konstruktorju, uporabi componentDidMount instead
+  //componentDidMount() is invoked immediately after a component is mounted (inserted into the tree). Initialization that requires DOM nodes should go here.
+  //If you need to load data from a remote endpoint, this is a good place to instantiate the network request.
+  //This method is a good place to set up any subscriptions. If you do that, don’t forget to unsubscribe in componentWillUnmount().
+  //You may call setState() immediately in componentDidMount(). It will trigger an extra rendering, but it will happen before the browser updates the screen.
+  // In most cases, you should be able to assign the initial state in the constructor().
+  //It can, however, be necessary for cases like modals and tooltips when you need to measure a DOM node before rendering something that depends on its size or position.
+
+  //slike: display:none oz. block,
+  //dotsi: "className="active" oz. ""
+
+  /*
+  InitCarouselDataTest() {
+    if (CarouselData.length > 0) {
+      //console.log("deluje");
+      //const data = this.FetchData();
+
+      CarouselData.map((slideData, index) => {
+        console.log("index=" + index);
+        console.log("img for index" + slideData.image);
+
+        if (index === 3) {
+          console.log("znotraj map-a:" + slideData.image);
+          return <p>SCENKA DELA</p>;
+        } else {
+          return <p>Nope!</p>;
+        }
+      });
+    } else
+      return (
+        <div>
+          <p>Prazno!</p>
+        </div>
+      );
+  }
+  */
+
+  //button handles start
+  handleNext() {
+    let handledPage = this.state.page;
+    if (!(handledPage + 1 >= this.state.matchesCount)) {
+      handledPage += 1;
+    } else {
+      handledPage = 0;
+    }
+
+    clearTimeout(this.state.timeoutID);
+    this.setState({ page: handledPage, timerCountdownSeconds: 4000 });
+  }
+
+  handlePrev() {
+    let handledPage = this.state.page;
+    if (!(handledPage - 1 < 0)) {
+      handledPage -= 1;
+    } else {
+      handledPage = this.state.matchesCount - 1;
+    }
+
+    clearTimeout(this.state.timeoutID);
+    this.setState({ page: handledPage, timerCountdownSeconds: 4000 });
+  }
+
+  handleDotsIndicator(index) {
+    clearTimeout(this.state.timeoutID);
+    this.setState({ page: index, timerCountdownSeconds: 4000 });
+    console.log("dot index:" + index);
+  }
+
+  dotIndicators() {
+    let indicators = [];
+    for (let i = 0; i < this.state.matchesCount; i++) {
+      indicators.push(this.dotIndicator(i));
+    }
+
+    return indicators;
+  }
+
+  dotIndicator(index) {
+    return (
+      <button
+        key={index}
+        onClick={this.handleDotsIndicator.bind(this, index)}
+        className={
+          index === this.state.page ? "dot-indicator-active" : "dot-indicator"
+        }
+      ></button>
+    );
+  }
+
+  CarouselButtons() {
+    return (
+      <>
+        <button onClick={this.handlePrev} className="btn-wrapper btn-prev">
+          <i className="fa fa-chevron-left"></i>
+        </button>
+        <button onClick={this.handleNext} className="btn-wrapper btn-next">
+          <i className="fa fa-chevron-right"></i>
+        </button>
+        <span className="dot-indicators">
+          <this.dotIndicators />
+        </span>
+      </>
+    );
+  }
+
+  HandleAutoChangeSLides() {
+    var interval = this.state.timerCountdownSeconds;
+    var expected = Date.now();
+    var stateTimerCountdownSeconds = this.state.timerCountdownSeconds;
+    const $that = this;
+    const $handleNext = this.handleNext;
+    this.setState({ timeoutID: setTimeout(step, interval) });
+
+    function step() {
+      var dt = Date.now() - expected;
+      if (dt > interval) {
+        //not ok
+      }
+      console.log("should print every interval ms");
+      console.log(interval);
+      $handleNext();
+
+      expected += interval;
+      setTimeout(step, Math.max(0, interval - dt));
+    }
+    console.log("timeoutID: " + this.state.timeoutID);
+  }
+  // button handles end
+
+  //getting and parsing matches data start
+  //schema: realcategories/tournamnets/matches/match(obj)
+  //get/parse matches initial data
+
+  //getting and parsing matches data end
+
   //set and use data
   InitCarouselData() {
     //test cases for matches data!
@@ -358,7 +431,12 @@ class MatchCarousel extends Component {
           {/*carousel-content*/}
           <div className="carousel-content-wrapper">
             {/*slideshow*/}
-            <div className="carousel-content">
+            <div
+              className="carousel-content"
+              style={{
+                transform: "translateX(-" + this.state.page * 100 + "%)",
+              }}
+            >
               {/*Slides (slideshow-wrapper)*/}
               {this.InitCarouselData()}
             </div>

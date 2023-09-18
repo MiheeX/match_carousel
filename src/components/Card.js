@@ -26,7 +26,6 @@ class Card extends Component {
     console.log(this.props.matchData._rcid);
   }
   */
-
   writeImg(pSrc) {
     return (
       <img
@@ -37,6 +36,21 @@ class Card extends Component {
         //style="opacity: 0.8"
       />
     );
+  }
+
+  setImageSrc(pStatus) {
+    console.log({ imgPostmatch });
+    switch (pStatus) {
+      case 100:
+        //return this.writeImg(imgPostmatch);
+        return imgPostmatch;
+      case 0:
+        //return this.writeImg(imgPrematch);
+        return imgPrematch;
+      default:
+        //return this.writeImg(imgLive);
+        return imgLive;
+    }
   }
 
   setImage(pStatus) {
@@ -64,11 +78,13 @@ class Card extends Component {
           this.props.matchData._dt.time + "\r" + this.props.matchData._dt.date
         );
       default:
-        return (
-          this.props.matchData.result.home +
-          ":" +
-          this.props.matchData.result.away
-        );
+        if (!this.props.matchData.result.home == null) {
+          return (
+            this.props.matchData.result.home +
+            ":" +
+            this.props.matchData.result.away
+          );
+        }
     }
   }
 
@@ -82,8 +98,21 @@ class Card extends Component {
         return "GAMETIME";
     }
   }
+  setStatusColor(pStatusId) {
+    switch (pStatusId) {
+      case 100:
+        return "green";
+      case 0:
+        return "grey";
+      default:
+        return "orange";
+    }
+  }
 
   render() {
+    const $matchData = this.props.matchData;
+    const $realCatData = this.props.rcData;
+    const $tournamnetData = this.props.tData;
     /*
     const bckgImg = {
       width: "850",
@@ -95,7 +124,7 @@ class Card extends Component {
     */
 
     console.log("Card.js LOG:");
-    console.log(this.props.matchData);
+    console.log($matchData);
 
     return (
       //slideshow
@@ -105,16 +134,21 @@ class Card extends Component {
           //style={bckgImg}
           className={
             this.props.index === this.props.page
-              ? "carousel-content active"
-              : "carousel-content hidden"
+              ? "carousel-content active bckg-img "
+              : "carousel-content hidden bckg-img "
           } //slide
+
+          //style={{
+          //  backgroundImage:
+          //    "url('" + this.setImageSrc($matchData.status._id) + "')",
+          //}}
         >
-          {this.setImage(this.props.matchData.status._id)}
+          {this.setImage($matchData.status._id)}
           <div>
             <p className="league-name">
-              {this.props.tData.name + "-" + this.props.tData.seasontypename}
+              {$tournamnetData.name + "-" + $tournamnetData.seasontypename}
             </p>
-            <p className="league-type">{this.props.rcData.name}</p>
+            <p className="league-type">{$realCatData.name}</p>
           </div>
           <div className="flag-left"></div>
           <div className="flag-right"></div>
@@ -122,13 +156,18 @@ class Card extends Component {
           <div className="result">
             <p className="result-text">
               {/*this.props.matchData.result.home}:{this.props.matchData.result.away*/}
-              {this.setResult(this.props.matchData.status._id)}
+              {this.setResult($matchData.status._id)}
             </p>
           </div>
-          <p className="team-left">{this.props.matchData.teams.home.name}</p>
-          <p className="team-right">{this.props.matchData.teams.away.name}</p>
-          <div className="match-status">
-            <p>{this.props.matchData.status.name}</p>
+          <p className="team-left">{$matchData.teams.home.name}</p>
+          <p className="team-right">{$matchData.teams.away.name}</p>
+          <div
+            className="match-status"
+            style={{
+              backgroundColor: this.setStatusColor($matchData.status._id),
+            }}
+          >
+            <p>{$matchData.status.name.toUpperCase()}</p>
           </div>
         </div>
       </>
