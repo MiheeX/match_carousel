@@ -38,9 +38,7 @@ class MatchCarousel extends Component {
       dataIsRead: false,
       page: 0,
       timerCountdownSeconds: 4000,
-      timer: setInterval(() => {
-        this.handleNext();
-      }, 3000), //zakaj tale arrow dela, običajna pa ne?
+      timer: 0,
     };
 
     this.handleNext = this.handleNext.bind(this);
@@ -50,50 +48,24 @@ class MatchCarousel extends Component {
     this.dotIndicators = this.dotIndicators.bind(this);
   }
 
-  /*
-  getAndStoreData() {
-    fetchData()
-      .then((data) => {
-        console.log("Loading data...");
-        const $data = getMatchesData(this.props.sportId).slice(
-          0,
-          this.props.max
-        );
-        this.setState({
-          apiData: data.doc[0].data,
-          dataIsRead: true,
-          matchesData: $data,
-          matchesCount: $data.length,
-        });
-
-        _apiData = data.doc[0].data;
-        _sportId = this.props.sportId;
-
-        console.log(data.doc[0].data);
-      })
-      .then(() => {
-        console.log("Data loaded!");
-      })
-      .catch((e) => console.log("error getting data: " + e));
-  }
-  */
   //getting and parsing matches data start
   //schema: realcategories/tournamnets/matches/match(obj)
   //get/parse matches initial data
   getAndStoreData() {
     /*
+    //ne dela ok
     this.setState({
       apiData: getAndStoreDataApi(this.props.sportId, this.props.max),
       dataIsRead: true,
     });
     console.log("ApiDataTest:");
     console.log(getAndStoreDataApi(this.props.sportId, this.props.max));
-    */
+*/
 
-    fetchData() //če dam zunanjega ne dela OK., data je samo v enem carouslu... verjetno ima veze instanciranje. Oz. dleuje pogojno
+    fetchData()
       .then((data) => {
         console.log("Loading data...");
-        const $data = this.getMatchesData(this.props.sportId).slice(
+        const $matchesData = this.getMatchesData(this.props.sportId).slice(
           0,
           this.props.max
         );
@@ -101,8 +73,8 @@ class MatchCarousel extends Component {
         this.setState({
           apiData: data.doc[0].data,
           dataIsRead: true,
-          matchesData: $data,
-          matchesCount: $data.length,
+          matchesData: $matchesData,
+          matchesCount: $matchesData.length,
         });
 
         console.log(data.doc[0].data);
@@ -115,6 +87,7 @@ class MatchCarousel extends Component {
 
   //API data fetch end
 
+  //<--------------- DATA PARSING START ----------------->
   //getting and parsing matches data start
   //schema: realcategories/tournamnets/matches/match(obj)
   //get/parse matches initial data
@@ -135,7 +108,6 @@ class MatchCarousel extends Component {
         .filter((filteredData) => filteredData._id === pSportId)
         .map((_data) => {
           realCategoryData = _data.realcategories;
-          console.log("Selected ID = " + _data._id);
         });
     }
     console.log("realcategory data");
@@ -145,39 +117,19 @@ class MatchCarousel extends Component {
     return realCategoryData;
   }
 
-  //Realcategories data getter
-  getRealCategoriesDataById(pRealCatId) {
-    var realCategoryData = [];
-    this.getRealCategoriesData(this.props.sportId) //local props
-      .filter((filteredData) => filteredData._id === pRealCatId)
-      .map((_data) => {
-        realCategoryData = _data;
-      });
-    return realCategoryData;
-  }
-
-  //Tournaments data getter
-  getTournamentsDataById(pTournamentId) {
-    var tournamentData = [];
-    this.getTournamentsData(this.props.sportId) //local props
-      .filter((filteredData) => filteredData._id === pTournamentId)
-      .map((_data) => {
-        tournamentData = _data;
-      });
-    return tournamentData;
-  }
-
   //get tournaments data filtered by sport_id and country_id
   getTournamentsData(pSportId, pCountryId) {
+    const $realCategoryData = this.getRealCategoriesData(pSportId);
+
     var tournamentsData = [];
     if (pCountryId === undefined) {
-      this.getRealCategoriesData(pSportId).map((_data) => {
+      $realCategoryData.map((_data) => {
         _data.tournaments.map((_data2) => {
           tournamentsData.push(_data2);
         });
       });
     } else {
-      this.getRealCategoriesData(pSportId)
+      $realCategoryData
         .filter((filteredData) => filteredData._id === pCountryId)
         .map((_data) => {
           tournamentsData = _data.tournaments;
@@ -191,6 +143,7 @@ class MatchCarousel extends Component {
   //get multiple matches data, filtered by sport_id(sport_id) and country_id(realcategory_id)
   getMatchesData(pSportId, pCountryId) {
     var matchesData = [];
+
     this.getTournamentsData(pSportId, pCountryId).map((_data) => {
       _data.matches.map((_data2) => {
         matchesData.push(_data2);
@@ -203,10 +156,36 @@ class MatchCarousel extends Component {
     return matchesData;
   }
 
+  //Realcategories data getter
+  getRealCategoriesDataById(pRealCatId) {
+    var realCategoryData = [];
+
+    this.getRealCategoriesData(this.props.sportId) //local props
+      .filter((filteredData) => filteredData._id === pRealCatId)
+      .map((_data) => {
+        realCategoryData = _data;
+      });
+    return realCategoryData;
+  }
+
+  //DATA GETTERS
+  //Tournaments data getter
+  getTournamentsDataById(pTournamentId) {
+    var tournamentData = [];
+
+    this.getTournamentsData(this.props.sportId) //local props
+      .filter((filteredData) => filteredData._id === pTournamentId)
+      .map((_data) => {
+        tournamentData = _data;
+      });
+    return tournamentData;
+  }
+
   //matches data getter
   //Get single match data by "_id"
   getMatchDataById(pMatchId) {
     var matchData = [];
+
     this.getMatchesData()
       .filter((filteredData) => filteredData._id === pMatchId)
       .map((_data) => {
@@ -217,12 +196,14 @@ class MatchCarousel extends Component {
     return matchData;
   }
   //getting and parsing matches data end
+  //<---------- DATA PARSING END ----------------->//
 
   componentDidMount() {
     if (!this.state.dataIsRead) {
       console.log("reading data...");
       this.getAndStoreData();
     }
+    //this.resetTimer();
     //this.HandleAutoChangeSLides();
   }
 
@@ -313,7 +294,9 @@ class MatchCarousel extends Component {
         key={index}
         onClick={this.handleDotsIndicator.bind(this, index)}
         className={
-          index === this.state.page ? "dot-indicator-active" : "dot-indicator"
+          index === this.state.page
+            ? "dot-indicator dot-indicator-active"
+            : "dot-indicator"
         }
       ></button>
     );
@@ -322,10 +305,16 @@ class MatchCarousel extends Component {
   CarouselButtons() {
     return (
       <>
-        <button onClick={this.handlePrev} className="btn-wrapper btn-prev">
+        <button
+          onClick={this.handlePrev}
+          className="btn-nav-wrapper btn-nav btn-nav-prev"
+        >
           <i className="fa fa-chevron-left"></i>
         </button>
-        <button onClick={this.handleNext} className="btn-wrapper btn-next">
+        <button
+          onClick={this.handleNext}
+          className="btn-nav-wrapper btn-nav btn-nav-next"
+        >
           <i className="fa fa-chevron-right"></i>
         </button>
         <span className="dot-indicators">
@@ -401,9 +390,11 @@ class MatchCarousel extends Component {
 
   CarouselData(pIndex) {
     var $matchesData = this.state.matchesData[pIndex];
+
     return (
       <Card
         index={pIndex}
+        key={pIndex}
         page={this.state.page}
         matchData={$matchesData} //če ne prikaže, je lahko tukaj pri var problem
         rcData={this.getRealCategoriesDataById($matchesData._rcid)}

@@ -1,6 +1,6 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
 
-.btn-wrapper {
+.btn-nav-wrapper {
   /*position: relative;*/
   left: 0;
   width: 2rem;
@@ -10,33 +10,29 @@
   transition: all 150ms;
 }
 
-.btn-wrapper:hover {
+.btn-nav-wrapper:hover {
   cursor: pointer;
   background-color: rgba(108, 122, 137, 0.15);
 }
 
-.btn-prev {
+.btn-nav {
   position: absolute;
-  /* right: 93%;*/
-  left: 0;
   top: 0;
   height: 100%;
   width: 60px;
+  color: white;
+  border-color: transparent;
+}
+
+.btn-nav-prev {
+  left: 0;
   border-top-left-radius: 50px;
   border-bottom-left-radius: 50px;
-  /*border-color: transparent;*/
-  color: white;
 }
-.btn-next {
-  position: absolute;
-  left: 92%;
-  top: 0;
-  height: 100%;
-  width: 60px;
+.btn-nav-next {
+  left: 92.5%;
   border-top-right-radius: 50px;
   border-bottom-right-radius: 50px;
-  /*border-color: transparent;*/
-  color: white;
 }
 
 .dot-indicators {
@@ -55,33 +51,14 @@
   border: none;
   outline: none;
   cursor: pointer;
+  padding: 5px;
+  margin: 0.5px;
 }
 
 .dot-indicator-active {
-  background-color: grey;
-  height: 0.5rem;
-  width: 0.5rem;
-  border-radius: 100%;
-  border: none;
-  outline: none;
-  cursor: pointer;
+  background-color: grey !important;
 }
 /*-----------------------*/
-/*
-.carousel-container {
-  left: 10rem;
-  right: 10rem;
-  height: 30px;
-  border: 2px solid black;
-}
-
-.carousel-wrapper {
-  left: 10rem;
-  right: 10rem;
-  height: 50px;
-  border: 2px solid red;
-}
-*/
 .carousel-content-wrapper {
   /*display: flex;*/
   display: flex;
@@ -94,8 +71,8 @@
   max-height: 500px;
   min-width: 600px;
   min-height: 300px;
-  border: 2px solid turquoise;
   overflow: hidden;
+  border: 2px solid blueviolet;
 }
 
 .carousel-content {

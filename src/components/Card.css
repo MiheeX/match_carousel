@@ -30,35 +30,30 @@
   color: white;
 }
 
-.flag-left {
+.flag {
   display: block;
   position: absolute;
   width: 25%;
   max-width: 200px;
   height: 25%;
   top: 30%;
-  left: 4rem;
   border: 2px solid white;
-  background-image: url(http://ls.betradar.com/ls/crest/big/354473.png);
+  background-repeat: no-repeat;
+  background-size: 60%;
+  background-position-x: 35px;
 }
 
-.flag-right {
-  display: block;
-  position: absolute;
-  width: 25%;
-  max-width: 200px;
-  height: 25%;
-  top: 30%;
+.flag-home {
+  left: 4rem;
+}
+
+.flag-away {
   right: 4rem;
-  border: 2px solid white;
-  background-image: url(https://i.ytimg.com/vi/_HXnpPuEHsQ/maxresdefault.jpg);
-  background-repeat: no-repeat;
-  background-size: 200px auto;
 }
 
 .result {
-  display: block;
   position: absolute;
+  display: block;
   height: auto;
   top: 30%;
   left: 50%;
@@ -83,11 +78,10 @@
   border: 2px solid white;
 }
 
-.team-left {
-  position: absolute;
+.team-name {
   display: block;
+  position: absolute;
   top: 52%;
-  left: 5rem;
   font-size: 30px;
   color: white;
   text-align: center;
@@ -95,16 +89,12 @@
   height: auto;
 }
 
-.team-right {
-  display: block;
-  position: absolute;
-  top: 52%;
+.team-name-home {
+  left: 5rem;
+}
+
+.team-name-away {
   right: 5rem;
-  font-size: 30px;
-  color: white;
-  text-align: center;
-  width: auto;
-  height: auto;
 }
 
 .match-status {

@@ -3,20 +3,25 @@ import React, { Component } from "react";
 //TODO in seperate packet /data/ApiFetch...
 export var _apiData = [];
 export var _sportId = 0;
+const apiUrl =
+  "https://lmt.fn.sportradar.com/demolmt/en/Etc:UTC/gismo/event_fullfeed/0/1/12074";
+
+const flagUrl = "https://img.sportradar.com/ls/crest/medium/{flagId}.png";
 
 export const fetchData = async () => {
   const response = await fetch(
-    "https://lmt.fn.sportradar.com/demolmt/en/Etc:UTC/gismo/event_fullfeed/0/1/12074" //, {method: "GET"}
+    apiUrl //, {method: "GET"}
   );
-  //team flag PNG: "http://ls.betradar.com/ls/crest/big/<team_id>.png"
   if (!response.ok) {
     throw new Error("Error getting data!");
   } else {
-    return response.json();
+    return await response.json();
+    //return response.json(); //not ok, tole je bug
   }
 };
 
 ///// naprej todo: da dela OK z MatchCarousel.js ////
+//ne deluje zaradi setState
 export function getAndStoreDataApi(pSportId, pMax) {
   let apiData = [];
 
@@ -42,8 +47,14 @@ export function getAndStoreDataApi(pSportId, pMax) {
     })
     .catch((e) => console.log("error getting data: " + e));
 }
-
 //API data fetch end
+
+export function getFlagUrl(pTeamId) {
+  let retFlagUrl = flagUrl.replace("{flagId}", pTeamId);
+  return retFlagUrl;
+}
+
+// <------------------------------> //
 
 export function getRealCategoriesData(pData, pSportId) {
   //const parsedData = this.state.apiData;

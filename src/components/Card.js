@@ -4,6 +4,7 @@ import imgPostmatch from "../assets/bg-postmatch.jpg";
 import imgLive from "../assets/bg-live.jpg";
 import "./Card.css";
 import MatchCarousel from "./MatchCarousel";
+import { getFlagUrl } from "../data/ApiFetch";
 
 class Card extends Component {
   constructor(props) {
@@ -15,17 +16,6 @@ class Card extends Component {
     };
   }
 
-  /*
-  componentDidMount() {
-    this.setState({
-      realcategoryData: MatchCarousel.getRealCategoriesDataById(
-        this.props.matchData._rcid
-      ),
-    });
-    console.log("RealCategoryDataByID:");
-    console.log(this.props.matchData._rcid);
-  }
-  */
   writeImg(pSrc) {
     return (
       <img
@@ -33,7 +23,7 @@ class Card extends Component {
         src={pSrc}
         width="100%"
         height="100%"
-        //style="opacity: 0.8"
+        style={{ filter: "brightness(0.6)" }} //ABUG PRVI SLIDE NIMA BORDER RADIUSA
       />
     );
   }
@@ -42,13 +32,10 @@ class Card extends Component {
     console.log({ imgPostmatch });
     switch (pStatus) {
       case 100:
-        //return this.writeImg(imgPostmatch);
         return imgPostmatch;
       case 0:
-        //return this.writeImg(imgPrematch);
         return imgPrematch;
       default:
-        //return this.writeImg(imgLive);
         return imgLive;
     }
   }
@@ -113,18 +100,6 @@ class Card extends Component {
     const $matchData = this.props.matchData;
     const $realCatData = this.props.rcData;
     const $tournamnetData = this.props.tData;
-    /*
-    const bckgImg = {
-      width: "850",
-      height: "500",
-      //display: "flex",
-      position: "relative",
-      // text-align: "center",
-    };
-    */
-
-    console.log("Card.js LOG:");
-    console.log($matchData);
 
     return (
       //slideshow
@@ -137,11 +112,6 @@ class Card extends Component {
               ? "carousel-content active bckg-img "
               : "carousel-content hidden bckg-img "
           } //slide
-
-          //style={{
-          //  backgroundImage:
-          //    "url('" + this.setImageSrc($matchData.status._id) + "')",
-          //}}
         >
           {this.setImage($matchData.status._id)}
           <div>
@@ -150,8 +120,20 @@ class Card extends Component {
             </p>
             <p className="league-type">{$realCatData.name}</p>
           </div>
-          <div className="flag-left"></div>
-          <div className="flag-right"></div>
+          <div
+            className="flag flag-home"
+            style={{
+              backgroundImage:
+                "url('" + getFlagUrl($matchData.teams.home.uid) + "')",
+            }}
+          ></div>
+          <div
+            className="flag flag-away"
+            style={{
+              backgroundImage:
+                "url('" + getFlagUrl($matchData.teams.away.uid) + "')",
+            }}
+          ></div>
 
           <div className="result">
             <p className="result-text">
@@ -159,8 +141,12 @@ class Card extends Component {
               {this.setResult($matchData.status._id)}
             </p>
           </div>
-          <p className="team-left">{$matchData.teams.home.name}</p>
-          <p className="team-right">{$matchData.teams.away.name}</p>
+          <p className="team-name team-name-home">
+            {$matchData.teams.home.name}
+          </p>
+          <p className="team-name team-name-away">
+            {$matchData.teams.away.name}
+          </p>
           <div
             className="match-status"
             style={{
