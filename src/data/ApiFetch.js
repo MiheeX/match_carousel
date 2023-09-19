@@ -17,26 +17,28 @@ export const fetchData = async () => {
 };
 
 ///// naprej todo: da dela OK z MatchCarousel.js ////
-function getAndStoreData(funct) {
-  this.fetchData()
+export function getAndStoreDataApi(pSportId, pMax) {
+  let apiData = [];
+
+  fetchData()
     .then((data) => {
       console.log("Loading data...");
-      const $data = this.getMatchesData(this.props.sportId).slice(
-        0,
-        this.props.max
-      );
+      const $data = getMatchesData(pSportId).slice(0, pMax);
       //create callback function here, to setState in different file (MatchCarousel)
+      /*
       this.setState({
         apiData: data.doc[0].data,
         dataIsRead: true,
         matchesData: $data,
         matchesCount: $data.length,
       });
-
-      console.log(data.doc[0].data);
+      */
+      apiData = data.doc[0].data;
     })
+
     .then(() => {
       console.log("Data loaded!");
+      return apiData;
     })
     .catch((e) => console.log("error getting data: " + e));
 }

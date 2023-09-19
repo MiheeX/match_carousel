@@ -4,6 +4,7 @@ import { CarouselData } from "../data/CarouselData";
 import "./MatchCarousel.css";
 import {
   fetchData,
+  getAndStoreDataApi,
   /*
   getTournamentsDataById,
 getRealCategoriesDataById,
@@ -80,7 +81,16 @@ class MatchCarousel extends Component {
   //schema: realcategories/tournamnets/matches/match(obj)
   //get/parse matches initial data
   getAndStoreData() {
-    fetchData() //če dam zunanjega ne dela OK., data je samo v enem carouslu... verjetno ima veze instanciranje.
+    /*
+    this.setState({
+      apiData: getAndStoreDataApi(this.props.sportId, this.props.max),
+      dataIsRead: true,
+    });
+    console.log("ApiDataTest:");
+    console.log(getAndStoreDataApi(this.props.sportId, this.props.max));
+    */
+
+    fetchData() //če dam zunanjega ne dela OK., data je samo v enem carouslu... verjetno ima veze instanciranje. Oz. dleuje pogojno
       .then((data) => {
         console.log("Loading data...");
         const $data = this.getMatchesData(this.props.sportId).slice(
