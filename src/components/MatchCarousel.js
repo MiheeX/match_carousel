@@ -2,14 +2,16 @@ import { Component, componentDidMount } from "react";
 import React from "react"; //zaradi compilerja, da ne javi napake pri <div> znotraj render/return
 import { CarouselData } from "../data/CarouselData";
 import "./MatchCarousel.css";
-/*import {
+import {
   fetchData,
+  /*
   getTournamentsDataById,
-  getRealCategoriesDataById,
+getRealCategoriesDataById,
   getMatchesData,
   _apiData,
   _sportId,
-} from "../data/ApiFetch";*/
+  */
+} from "../data/ApiFetch";
 import Card from "./Card";
 
 class MatchCarousel extends Component {
@@ -34,9 +36,10 @@ class MatchCarousel extends Component {
       matchesCount: 0,
       dataIsRead: false,
       page: 0,
-      nextInterval: 3000,
       timerCountdownSeconds: 4000,
-      timeoutID: 4000,
+      timer: setInterval(() => {
+        this.handleNext();
+      }, 3000), //zakaj tale arrow dela, običajna pa ne?
     };
 
     this.handleNext = this.handleNext.bind(this);
@@ -73,29 +76,18 @@ class MatchCarousel extends Component {
       .catch((e) => console.log("error getting data: " + e));
   }
   */
-
-  //API data fetch start
-  //TODO in seperate packet /data/ApiFetch...
-  fetchData = async () => {
-    const response = await fetch(
-      "https://lmt.fn.sportradar.com/demolmt/en/Etc:UTC/gismo/event_fullfeed/0/1/12074" //, {method: "GET"}
-    );
-    //team flag PNG: "http://ls.betradar.com/ls/crest/big/<team_id>.png"
-    if (!response.ok) {
-      throw new Error("Error getting data!");
-    } else {
-      return response.json();
-    }
-  };
-
+  //getting and parsing matches data start
+  //schema: realcategories/tournamnets/matches/match(obj)
+  //get/parse matches initial data
   getAndStoreData() {
-    this.fetchData()
+    fetchData() //če dam zunanjega ne dela OK., data je samo v enem carouslu... verjetno ima veze instanciranje.
       .then((data) => {
         console.log("Loading data...");
         const $data = this.getMatchesData(this.props.sportId).slice(
           0,
           this.props.max
         );
+        //make callback function, and move to components/data/ApiFetch
         this.setState({
           apiData: data.doc[0].data,
           dataIsRead: true,
@@ -143,9 +135,10 @@ class MatchCarousel extends Component {
     return realCategoryData;
   }
 
+  //Realcategories data getter
   getRealCategoriesDataById(pRealCatId) {
     var realCategoryData = [];
-    this.getRealCategoriesData(this.props.sportId)
+    this.getRealCategoriesData(this.props.sportId) //local props
       .filter((filteredData) => filteredData._id === pRealCatId)
       .map((_data) => {
         realCategoryData = _data;
@@ -153,9 +146,10 @@ class MatchCarousel extends Component {
     return realCategoryData;
   }
 
+  //Tournaments data getter
   getTournamentsDataById(pTournamentId) {
     var tournamentData = [];
-    this.getTournamentsData(this.props.sportId)
+    this.getTournamentsData(this.props.sportId) //local props
       .filter((filteredData) => filteredData._id === pTournamentId)
       .map((_data) => {
         tournamentData = _data;
@@ -199,6 +193,7 @@ class MatchCarousel extends Component {
     return matchesData;
   }
 
+  //matches data getter
   //Get single match data by "_id"
   getMatchDataById(pMatchId) {
     var matchData = [];
@@ -218,7 +213,7 @@ class MatchCarousel extends Component {
       console.log("reading data...");
       this.getAndStoreData();
     }
-    this.HandleAutoChangeSLides();
+    //this.HandleAutoChangeSLides();
   }
 
   componentDidUpdate(props) {}
@@ -269,8 +264,8 @@ class MatchCarousel extends Component {
       handledPage = 0;
     }
 
-    clearTimeout(this.state.timeoutID);
-    this.setState({ page: handledPage, timerCountdownSeconds: 4000 });
+    this.setState({ page: handledPage });
+    this.resetTimer();
   }
 
   handlePrev() {
@@ -281,13 +276,15 @@ class MatchCarousel extends Component {
       handledPage = this.state.matchesCount - 1;
     }
 
-    clearTimeout(this.state.timeoutID);
-    this.setState({ page: handledPage, timerCountdownSeconds: 4000 });
+    this.setState({ page: handledPage });
+    this.resetTimer();
   }
 
   handleDotsIndicator(index) {
-    clearTimeout(this.state.timeoutID);
-    this.setState({ page: index, timerCountdownSeconds: 4000 });
+    this.setState({ page: index });
+
+    this.resetTimer();
+
     console.log("dot index:" + index);
   }
 
@@ -328,6 +325,7 @@ class MatchCarousel extends Component {
     );
   }
 
+  //test functions. Works OK, but can't reset it easily.. todo...
   HandleAutoChangeSLides() {
     var interval = this.state.timerCountdownSeconds;
     var expected = Date.now();
@@ -352,11 +350,14 @@ class MatchCarousel extends Component {
   }
   // button handles end
 
-  //getting and parsing matches data start
-  //schema: realcategories/tournamnets/matches/match(obj)
-  //get/parse matches initial data
+  resetTimer() {
+    let $timer = setInterval(() => {
+      this.handleNext();
+    }, 4000);
 
-  //getting and parsing matches data end
+    clearInterval(this.state.timer);
+    this.setState({ timer: $timer });
+  }
 
   //set and use data
   InitCarouselData() {
@@ -389,20 +390,6 @@ class MatchCarousel extends Component {
   //
 
   CarouselData(pIndex) {
-    //return <p>SCENKA DELA</p>;
-
-    //console.log(this.state.page);
-    //console.log("index: " + index);
-
-    /*
-    return (
-      <img
-        key={index}
-        src={CarouselData[index].image}
-        className={index === this.state.page ? "carousel-content" : "hidden"}
-      ></img>
-    );
-    */
     var $matchesData = this.state.matchesData[pIndex];
     return (
       <Card
@@ -416,13 +403,6 @@ class MatchCarousel extends Component {
   }
 
   doRender() {
-    //auto move to next
-    /*
-    setInterval(() => {
-      this.handleNext();
-    }, 5000);
-    */
-
     //this.GetDataBySportCategory("Soccer");
     return (
       <div className="carousel-container">
@@ -452,6 +432,7 @@ class MatchCarousel extends Component {
   }
 }
 
+//izven class componenta. je to ok?
 MatchCarousel.defaultProps = {
   max: 10,
   sportId: undefined,
