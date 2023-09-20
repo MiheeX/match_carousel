@@ -7,6 +7,7 @@
 
 * {
   font-family: myFont;
+  box-sizing: border-box;
 }
 
 .league-name {
@@ -39,16 +40,17 @@
   top: 30%;
   border: 2px solid white;
   background-repeat: no-repeat;
-  background-size: 60%;
-  background-position-x: 35px;
+  background-size: 55%;
+  background-position-x: 50%;
+  background-position-y: 50%;
 }
 
 .flag-home {
-  left: 4rem;
+  left: 10%;
 }
 
 .flag-away {
-  right: 4rem;
+  right: 10%;
 }
 
 .result {
@@ -56,7 +58,8 @@
   display: block;
   height: auto;
   top: 30%;
-  left: 50%;
+  left: 43%;
+  margin-right: 50px;
   /*
   width: 100%;
   max-width: 200px;
@@ -90,21 +93,21 @@
 }
 
 .team-name-home {
-  left: 5rem;
+  left: 8%;
 }
 
 .team-name-away {
-  right: 5rem;
+  right: 8%;
 }
 
 .match-status {
   position: absolute;
-  display: block;
+  display: flexbox;
   left: 36%;
   bottom: 10%;
-  width: 180px;
-  height: 40px;
-  font-size: 20px;
+  width: 30%;
+  height: 10%;
+  font-size: 30px;
   color: white;
   border: 2px solid white;
   border-radius: 10px;
@@ -149,4 +152,47 @@
   border-radius: 8%;
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: 100%;
+}
+
+@media only screen and (max-width: 320px) {
+  .carousel-content {
+    position: relative;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    transition: all 1s;
+    width: 100%;
+    height: 100%;
+    left: 0;
+  }
+
+  .match-status {
+    font-size: 8px;
+  }
+
+  .match-status > p {
+    margin: 0;
+  }
+
+  .league-name {
+    font-size: 15px;
+  }
+
+  .league-type {
+    font-size: 10px;
+  }
+
+  .flag {
+    top: 38%;
+  }
+
+  .result-text {
+    font-size: 13px;
+    color: white;
+  }
+
+  .team-name {
+    top: 55%;
+    font-size: 12px;
+  }
 }

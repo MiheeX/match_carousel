@@ -309,13 +309,13 @@ class MatchCarousel extends Component {
           onClick={this.handlePrev}
           className="btn-nav-wrapper btn-nav btn-nav-prev"
         >
-          <i className="fa fa-chevron-left"></i>
+          <i className="fa fa-chevron-left">{"<"}</i>
         </button>
         <button
           onClick={this.handleNext}
           className="btn-nav-wrapper btn-nav btn-nav-next"
         >
-          <i className="fa fa-chevron-right"></i>
+          <i className="fa fa-chevron-right">{">"}</i>
         </button>
         <span className="dot-indicators">
           <this.dotIndicators />
@@ -406,25 +406,31 @@ class MatchCarousel extends Component {
   doRender() {
     //this.GetDataBySportCategory("Soccer");
     return (
-      <div className="carousel-container">
-        {/*content*/}
-        <div className="carousel-wrapper">
-          {/*carousel-content*/}
-          <div className="carousel-content-wrapper">
-            {/*slideshow*/}
-            <div
-              className="carousel-content"
-              style={{
-                transform: "translateX(-" + this.state.page * 100 + "%)",
-              }}
-            >
-              {/*Slides (slideshow-wrapper)*/}
-              {this.InitCarouselData()}
+      <>
+        {/*<head>
+          <meta name="viewport" content="width=device-width" />
+        </head>
+    */}
+        <div className="carousel-container">
+          {/*content*/}
+          <div className="carousel-wrapper">
+            {/*carousel-content*/}
+            <div className="carousel-content-wrapper">
+              {/*slideshow*/}
+              <div
+                className="carousel-content"
+                style={{
+                  transform: "translateX(-" + this.state.page * 100 + "%)",
+                }}
+              >
+                {/*Slides (slideshow-wrapper)*/}
+                {this.InitCarouselData()}
+              </div>
+              <this.CarouselButtons />
             </div>
-            <this.CarouselButtons />
           </div>
         </div>
-      </div>
+      </>
     );
   }
 
