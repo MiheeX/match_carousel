@@ -154,14 +154,57 @@
   background-size: 100%;
 }
 
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 870px) {
   .carousel-content {
     position: relative;
     align-items: center;
     align-content: center;
     text-align: center;
     transition: all 1s;
-    width: 100%;
+    width: 50%;
+    height: 100%;
+    left: 0;
+  }
+
+  .match-status {
+    font-size: 13px;
+  }
+
+  .match-status > p {
+    margin: 2px;
+  }
+
+  .league-name {
+    font-size: 20px;
+  }
+
+  .league-type {
+    font-size: 15px;
+  }
+
+  .flag {
+    top: 38%;
+  }
+
+  .result-text {
+    font-size: 20px;
+    color: white;
+  }
+
+  .team-name {
+    top: 55%;
+    font-size: 17px;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .carousel-content {
+    position: relative;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    transition: all 1s;
+    width: 50%;
     height: 100%;
     left: 0;
   }
@@ -194,5 +237,51 @@
   .team-name {
     top: 55%;
     font-size: 12px;
+    align-content: center;
+    width: 70px;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .carousel-content {
+    position: relative;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    transition: all 1s;
+    width: 100%;
+    height: 100%;
+    left: 0;
+  }
+
+  .match-status {
+    font-size: 8px;
+  }
+
+  .match-status > p {
+    margin: -1px;
+  }
+
+  .league-name {
+    font-size: 12px;
+  }
+
+  .league-type {
+    font-size: 10px;
+  }
+
+  .flag {
+    top: 38%;
+  }
+
+  .result-text {
+    font-size: 12px;
+    color: white;
+  }
+
+  .team-name {
+    top: 55%;
+    font-size: 10px;
+    width: 70px;
   }
 }

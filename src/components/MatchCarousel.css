@@ -76,10 +76,10 @@
   margin-left: 3em;
   margin-right: 10em;
   height: 500px;
-  max-width: 800px;
-  max-height: 500px;
-  min-width: 600px;
-  min-height: 300px;
+  max-width: 800px; /*800px*/
+  max-height: 500px; /*500px*/
+  min-width: 600px; /*600px*/
+  min-height: 300px; /*300px*/
   overflow: hidden;
   border: 2px solid blueviolet;
 }
@@ -94,15 +94,80 @@
   /*transform: translateX(-100%);*/
 }
 
-@media only screen and (min-width: 870px) {
+@media only screen and (max-width: 870px) {
   .carousel-content-wrapper {
     border: 3px solid red;
+  }
+
+  .carousel-content-wrapper {
+    /*display: flex;*/
+    display: flex;
+    flex: 1;
+    position: relative;
+    margin-left: 2em;
+    margin-right: 10em;
+    height: 40px;
+    width: auto;
+    overflow: hidden;
+    max-width: 400px;
+    min-width: 390px;
+    min-height: 250px;
+    width: 100%;
+  }
+
+  .dot-indicators {
+    bottom: 2%;
+    left: 38%;
+    text-align: center; /*kako centriram?*/
+  }
+
+  .dot-indicator {
+    height: 0.5rem;
+    width: 0.5rem;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 1px;
+    margin: 0.3px;
   }
 }
 
 @media only screen and (max-width: 450px) {
+  /*ta me zajebava!*/
   .carousel-content-wrapper {
     border: 3px solid green;
+  }
+
+  .carousel-content-wrapper {
+    /*display: flex;*/
+    display: flex;
+    flex: 1;
+    position: relative;
+    margin-left: 2em;
+    margin-right: 10em;
+    height: 40px;
+    overflow: hidden;
+    max-width: 270px;
+    min-width: 270px;
+    min-height: 150px;
+    width: 100%;
+  }
+
+  .dot-indicators {
+    bottom: 2%;
+    left: 37%;
+  }
+
+  .dot-indicator {
+    height: 0.4rem;
+    width: 0.4rem;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 1px;
+    margin: 0.3px;
   }
 }
 
@@ -119,22 +184,21 @@
     width: auto;
     margin-left: 2em;
     margin-right: 10em;
-    height: 200px;
-    max-width: 100%;
+    max-width: 250px;
     max-height: 150px;
-    min-width: 250px;
-    min-height: 100px;
+    min-width: 200px;
+    min-height: 120px;
     overflow: hidden;
   }
 
   .dot-indicators {
     bottom: 2%;
-    left: 32%;
+    left: 37%;
   }
 
   .dot-indicator {
-    height: 0.5rem;
-    width: 0.5rem;
+    height: 0.3rem;
+    width: 0.3rem;
     border-radius: 50%;
     border: none;
     outline: none;

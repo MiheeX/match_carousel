@@ -41,6 +41,8 @@ class MatchCarousel extends Component {
       timer: 0,
     };
 
+    //probaj dat getData v construcotr in spremeni setState v this.state={...}
+
     this.handleNext = this.handleNext.bind(this);
     this.handlePrev = this.handlePrev.bind(this);
     this.CarouselButtons = this.CarouselButtons.bind(this);
@@ -207,45 +209,6 @@ class MatchCarousel extends Component {
     //this.HandleAutoChangeSLides();
   }
 
-  componentDidUpdate(props) {}
-
-  //da se izogneš side effectom ali subscriptionov v konstruktorju, uporabi componentDidMount instead
-  //componentDidMount() is invoked immediately after a component is mounted (inserted into the tree). Initialization that requires DOM nodes should go here.
-  //If you need to load data from a remote endpoint, this is a good place to instantiate the network request.
-  //This method is a good place to set up any subscriptions. If you do that, don’t forget to unsubscribe in componentWillUnmount().
-  //You may call setState() immediately in componentDidMount(). It will trigger an extra rendering, but it will happen before the browser updates the screen.
-  // In most cases, you should be able to assign the initial state in the constructor().
-  //It can, however, be necessary for cases like modals and tooltips when you need to measure a DOM node before rendering something that depends on its size or position.
-
-  //slike: display:none oz. block,
-  //dotsi: "className="active" oz. ""
-
-  /*
-  InitCarouselDataTest() {
-    if (CarouselData.length > 0) {
-      //console.log("deluje");
-      //const data = this.FetchData();
-
-      CarouselData.map((slideData, index) => {
-        console.log("index=" + index);
-        console.log("img for index" + slideData.image);
-
-        if (index === 3) {
-          console.log("znotraj map-a:" + slideData.image);
-          return <p>SCENKA DELA</p>;
-        } else {
-          return <p>Nope!</p>;
-        }
-      });
-    } else
-      return (
-        <div>
-          <p>Prazno!</p>
-        </div>
-      );
-  }
-  */
-
   //button handles start
   handleNext() {
     let handledPage = this.state.page;
@@ -323,8 +286,10 @@ class MatchCarousel extends Component {
       </>
     );
   }
+  // button handles end
 
   //test functions. Works OK, but can't reset it easily.. todo...
+  ///test test start
   HandleAutoChangeSLides() {
     var interval = this.state.timerCountdownSeconds;
     var expected = Date.now();
@@ -347,7 +312,7 @@ class MatchCarousel extends Component {
     }
     console.log("timeoutID: " + this.state.timeoutID);
   }
-  // button handles end
+  //test end test end
 
   resetTimer() {
     let $timer = setInterval(() => {
@@ -360,21 +325,7 @@ class MatchCarousel extends Component {
 
   //set and use data
   InitCarouselData() {
-    //test cases for matches data!
-    //this.getMatchesData(1,1); //ne sme biti v render funkciji, drugače se ponavlja...
-    //this.getRealCategoriesData(); //OK undefined
-    //this.getTournamentsData(undefined, undefined); //OK undefined
-    //this.getMatchesData();
-    //this.getMatchDataById(43523147);
-    //this.getRealCategoriesDataById(395);
-    //
-
     let vCarouselData = [];
-    /*
-    for (let i = 0; i < CarouselData.length; i++) {
-      vCarouselData.push(this.CarouselData(i));
-    }
-    */
 
     var $length = this.state.matchesCount;
     for (let i = 0; i < $length; i++) {
@@ -404,7 +355,6 @@ class MatchCarousel extends Component {
   }
 
   doRender() {
-    //this.GetDataBySportCategory("Soccer");
     return (
       <>
         {/*<head>

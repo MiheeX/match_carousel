@@ -23,7 +23,7 @@ class Card extends Component {
         src={pSrc}
         width="100%"
         height="100%"
-        style={{ filter: "brightness(0.6)" }} //ABUG PRVI SLIDE NIMA BORDER RADIUSA
+        style={{ filter: "brightness(0.6)" }} //BUG PRVI SLIDE NIMA BORDER RADIUSA
       />
     );
   }
