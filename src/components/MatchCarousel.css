@@ -1,4 +1,4 @@
-@import url("https://cdnbox-sizing: border-box;js.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
 
 * {
   box-sizing: border-box;
@@ -30,7 +30,6 @@
 
 .btn-nav-prev {
   left: 0;
-  border-color: aqua;
   border-top-left-radius: 50px;
   border-bottom-left-radius: 50px;
 }
@@ -38,17 +37,17 @@
 .btn-nav-next {
   left: 91.8%;
   /*margin-left: -5px;*/
-  border-color: aqua;
   border-top-right-radius: 50px;
   border-bottom-right-radius: 50px;
+  color: white;
 }
 
 .dot-indicators {
   display: flex;
   position: absolute;
   bottom: 2%;
-  left: 43%;
-  right: auto;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .dot-indicator {
@@ -67,13 +66,26 @@
   background-color: grey !important;
 }
 /*-----------------------*/
+.carousel-wrapper {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  /*
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+  display: -webkit-box;
+  */
+}
+
 .carousel-content-wrapper {
   /*display: flex;*/
   display: flex;
   flex: 1;
   position: relative;
   width: auto;
-  margin-left: 3em;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-left: 2em;
   margin-right: 10em;
   height: 500px;
   max-width: 800px; /*800px*/
@@ -81,7 +93,7 @@
   min-width: 600px; /*600px*/
   min-height: 300px; /*300px*/
   overflow: hidden;
-  border: 2px solid blueviolet;
+  /*border: 2px solid blueviolet;*/
 }
 
 .carousel-content {
@@ -89,25 +101,20 @@
   align-content: center;
   flex: 0 0 100%;
   display: inline-flex;
-  justify-content: flex-start;
+  /*justify-content: flex-start;*/
   /*overflow: hidden;*/
   /*transform: translateX(-100%);*/
 }
 
 @media only screen and (max-width: 870px) {
   .carousel-content-wrapper {
-    border: 3px solid red;
+    /*border: 3px solid red;*/
   }
 
   .carousel-content-wrapper {
-    /*display: flex;*/
-    display: flex;
-    flex: 1;
-    position: relative;
-    margin-left: 2em;
-    margin-right: 10em;
+    left: 44%;
+    transform: translateX(-50%);
     height: 40px;
-    width: auto;
     overflow: hidden;
     max-width: 400px;
     min-width: 390px;
@@ -115,37 +122,23 @@
     width: 100%;
   }
 
-  .dot-indicators {
-    bottom: 2%;
-    left: 38%;
-    text-align: center; /*kako centriram?*/
-  }
-
   .dot-indicator {
     height: 0.5rem;
     width: 0.5rem;
-    border-radius: 50%;
-    border: none;
-    outline: none;
-    cursor: pointer;
     padding: 1px;
-    margin: 0.3px;
   }
 }
 
 @media only screen and (max-width: 450px) {
-  /*ta me zajebava!*/
   .carousel-content-wrapper {
-    border: 3px solid green;
+    /*border: 3px solid green;*/
   }
 
   .carousel-content-wrapper {
-    /*display: flex;*/
-    display: flex;
-    flex: 1;
-    position: relative;
-    margin-left: 2em;
-    margin-right: 10em;
+    /*
+    left: 41%;
+    transform: translateX(-50%);
+    */
     height: 40px;
     overflow: hidden;
     max-width: 270px;
@@ -154,56 +147,31 @@
     width: 100%;
   }
 
-  .dot-indicators {
-    bottom: 2%;
-    left: 37%;
-  }
-
   .dot-indicator {
     height: 0.4rem;
     width: 0.4rem;
-    border-radius: 50%;
-    border: none;
-    outline: none;
-    cursor: pointer;
     padding: 1px;
-    margin: 0.3px;
   }
 }
 
 @media only screen and (max-width: 320px) {
   .carousel-content-wrapper {
-    border: 3px solid yellow;
+    /* border: 3px solid yellow;*/
   }
 
   .carousel-content-wrapper {
-    /*display: flex;*/
-    display: flex;
-    flex: 1;
-    position: relative;
-    width: auto;
-    margin-left: 2em;
-    margin-right: 10em;
-    max-width: 250px;
+    left: 35%;
+    transform: translateX(-50%);
+    max-width: 230px;
     max-height: 150px;
-    min-width: 200px;
+    min-width: 180px;
     min-height: 120px;
     overflow: hidden;
-  }
-
-  .dot-indicators {
-    bottom: 2%;
-    left: 37%;
   }
 
   .dot-indicator {
     height: 0.3rem;
     width: 0.3rem;
-    border-radius: 50%;
-    border: none;
-    outline: none;
-    cursor: pointer;
     padding: 1px;
-    margin: 0.3px;
   }
 }
