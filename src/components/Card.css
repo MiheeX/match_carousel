@@ -55,35 +55,25 @@
 }
 
 .result {
-  left: 42%;
+  left: 50%;
   transform: translateX(-43%);
   position: absolute;
   display: flex;
   height: 125px;
   top: 30%;
-  /*
+  text-align: center;
   justify-content: center;
-  display: flex;
-  */
-
-  /*
-  width: 100%;
-  max-width: 200px;
-  min-width: 200px;
-  margin: 10px;
-  */
+  width: 100px;
+  height: 100px;
 }
 
 .result-text-0 {
   position: absolute;
-  display: flexbox;
+  display: flex;
   flex: 1;
   font-size: 30px;
-  height: 125px;
-  /*
-  min-width: 150px;
-  max-width: 180px;
-  */
+  height: 50px;
+  width: 50px;
   justify-content: center;
   color: white;
   text-align: center;
@@ -91,10 +81,10 @@
 
 .result-text-100 {
   position: absolute;
-  display: flexbox;
+  display: flex;
   flex: 1;
   font-size: 60px;
-  height: 125px;
+  height: 50px;
   color: white;
   justify-content: center;
   text-align: center;
@@ -109,6 +99,8 @@
   text-align: center;
   width: 70px;
   height: auto;
+  justify-content: center;
+  text-align: center;
 }
 
 .team-name-home {
@@ -117,6 +109,7 @@
 
 .team-name-away {
   right: 8%;
+  margin-right: 80px;
 }
 
 .match-status {
@@ -131,13 +124,16 @@
   left: 50%;
   transform: translateX(-50%);
   border-radius: 10px;
+  justify-content: center;
 }
 
 .match-status > p {
   position: relative;
-  margin: -1px;
+  margin: 0px;
   top: 50%;
   transform: translateY(-50%);
+  text-align: center;
+  justify-content: center;
 }
 
 /*---------------------------*/
@@ -204,6 +200,16 @@
     top: 55%;
     font-size: 17px;
   }
+
+  .team-name-away {
+    margin-right: 0px;
+    right: 55px;
+  }
+
+  .team-name-home {
+    margin-left: 0px;
+    left: 55px;
+  }
 }
 
 @media only screen and (max-width: 450px) {
@@ -244,6 +250,16 @@
     align-content: center;
     width: 70px;
   }
+
+  .team-name-away {
+    margin-right: 0px;
+    right: 28px;
+  }
+
+  .team-name-home {
+    margin-left: 0px;
+    left: 28px;
+  }
 }
 
 @media only screen and (max-width: 320px) {
@@ -276,11 +292,22 @@
 
   .result-text-100 {
     font-size: 18px;
+    height: 20px;
   }
 
   .team-name {
     top: 55%;
     font-size: 10px;
     width: 70px;
+  }
+
+  .team-name-away {
+    margin-right: 0px;
+    right: 10px;
+  }
+
+  .team-name-home {
+    margin-left: 0px;
+    left: 10px;
   }
 }

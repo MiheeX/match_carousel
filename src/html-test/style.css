@@ -75,7 +75,7 @@
   -webkit-box-pack: center;
   display: -webkit-box;
   */
-  max-width: 300px;
+  max-width: 500px;
   min-width: 300px;
 }
 
@@ -222,7 +222,7 @@
 }
 
 .team-name-away {
-  right: 8%;
+  right: 15%;
 }
 
 .match-status {

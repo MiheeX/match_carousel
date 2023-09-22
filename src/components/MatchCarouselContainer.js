@@ -8,9 +8,16 @@ class MatchCarouselContainer extends Component {
 
     this.state = {
       apiData: [],
+      show1: 0,
+      show2: 0,
     };
 
     this.MatchCarouselWrapper = this.MatchCarouselWrapper.bind(this);
+    this.Tabs = this.Tabs.bind(this);
+    this.Case1 = this.Case1.bind(this);
+    this.Case2 = this.Case2.bind(this);
+    this.handle1 = this.handle1.bind(this);
+    this.handle2 = this.handle2.bind(this);
   }
 
   componentDidMount() {
@@ -103,11 +110,57 @@ class MatchCarouselContainer extends Component {
     );
   }
 
-  render() {
+  //Tabs for showing components
+  Case1() {
+    if (this.state.show1 === 1) {
+      return (
+        <>
+          <this.MatchCarouselWrapper sportId={1} max={10} />
+        </>
+      );
+    }
+  }
+
+  Case2() {
+    if (this.state.show2 === 1) {
+      return (
+        <>
+          <this.MatchCarouselWrapper sportId={1} />
+          <this.MatchCarouselWrapper sportId={2} />
+        </>
+      );
+    }
+  }
+
+  Tabs() {
+    const buttonStyle = { width: "100px", height: "30px" };
     return (
       <>
-        <this.MatchCarouselWrapper sportId={1} max={2} />
-        <this.MatchCarouselWrapper sportId={2} />
+        <button style={buttonStyle} onClick={this.handle1}>
+          Tab 1
+        </button>
+        <button style={buttonStyle} onClick={this.handle2}>
+          Tab 2
+        </button>
+      </>
+    );
+  }
+
+  handle1() {
+    this.setState({ show1: 1, show2: 0 });
+  }
+
+  handle2() {
+    this.setState({ show1: 0, show2: 1 });
+  }
+
+  render() {
+    const buttonStyle = { width: "100px", height: "30px" };
+    return (
+      <>
+        <this.Tabs />
+        <this.Case1 />
+        <this.Case2 />
       </>
     );
   }
