@@ -24,7 +24,6 @@ src/reportWebVitals.js			- package for measuring performance of the app
 
 
 Corner cases and known bug:
-- if timer starts automatically upon setting state from constructor, app gets buggy with time. Needs reinplementation.
 - resposiveness needs imporevements. Grid system should be used
 - slow data load times
 

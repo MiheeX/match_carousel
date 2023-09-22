@@ -75,6 +75,8 @@
   -webkit-box-pack: center;
   display: -webkit-box;
   */
+  max-width: 300px;
+  min-width: 300px;
 }
 
 .carousel-content-wrapper {
@@ -104,64 +106,6 @@
   /*justify-content: flex-start;*/
   /*overflow: hidden;*/
   /*transform: translateX(-100%);*/
-}
-
-@media only screen and (max-width: 870px) {
-  .carousel-content-wrapper {
-    left: 44%;
-    transform: translateX(-50%);
-    height: 40px;
-    overflow: hidden;
-    max-width: 400px;
-    min-width: 390px;
-    min-height: 250px;
-    width: 100%;
-  }
-
-  .dot-indicator {
-    height: 0.5rem;
-    width: 0.5rem;
-    padding: 1px;
-  }
-}
-
-@media only screen and (max-width: 450px) {
-  .carousel-content-wrapper {
-    /*
-    left: 41%;
-    transform: translateX(-50%);
-    */
-    height: 40px;
-    overflow: hidden;
-    max-width: 270px;
-    min-width: 270px;
-    min-height: 150px;
-    width: 100%;
-  }
-
-  .dot-indicator {
-    height: 0.4rem;
-    width: 0.4rem;
-    padding: 1px;
-  }
-}
-
-@media only screen and (max-width: 320px) {
-  .carousel-content-wrapper {
-    left: 35%;
-    transform: translateX(-50%);
-    max-width: 230px;
-    max-height: 150px;
-    min-width: 180px;
-    min-height: 120px;
-    overflow: hidden;
-  }
-
-  .dot-indicator {
-    height: 0.3rem;
-    width: 0.3rem;
-    padding: 1px;
-  }
 }
 
 @font-face {
@@ -366,6 +310,23 @@
     top: 55%;
     font-size: 17px;
   }
+
+  .carousel-content-wrapper {
+    left: 44%;
+    transform: translateX(-50%);
+    height: 40px;
+    overflow: hidden;
+    max-width: 400px;
+    min-width: 390px;
+    min-height: 250px;
+    width: 100%;
+  }
+
+  .dot-indicator {
+    height: 0.5rem;
+    width: 0.5rem;
+    padding: 1px;
+  }
 }
 
 @media only screen and (max-width: 450px) {
@@ -406,6 +367,25 @@
     align-content: center;
     width: 70px;
   }
+
+  .carousel-content-wrapper {
+    /*
+    left: 41%;
+    transform: translateX(-50%);
+    */
+    height: 40px;
+    overflow: hidden;
+    max-width: 270px;
+    min-width: 270px;
+    min-height: 150px;
+    width: 100%;
+  }
+
+  .dot-indicator {
+    height: 0.4rem;
+    width: 0.4rem;
+    padding: 1px;
+  }
 }
 
 @media only screen and (max-width: 320px) {
@@ -444,5 +424,21 @@
     top: 55%;
     font-size: 10px;
     width: 70px;
+  }
+
+  .carousel-content-wrapper {
+    left: 35%;
+    transform: translateX(-50%);
+    max-width: 230px;
+    max-height: 150px;
+    min-width: 180px;
+    min-height: 120px;
+    overflow: hidden;
+  }
+
+  .dot-indicator {
+    height: 0.3rem;
+    width: 0.3rem;
+    padding: 1px;
   }
 }

@@ -9,9 +9,10 @@ class MatchCarousel extends Component {
 
     this.state = {
       sportId: undefined,
-      max: this.props.max, //instead of this.state.max, this.props.max is used
+      max: this.props.max, //instead of this.state.max, this.props.max is used in code
       page: 0,
-      timer: 0, //this.setTimer(),
+      timer: 0,
+      timerInitialized: false,
     };
 
     this.handleNext = this.handleNext.bind(this);
@@ -26,8 +27,14 @@ class MatchCarousel extends Component {
       //matchesData: this.props.matchesData.slice(0, this.props.max),
       //matchesCount: this.props.matchesData.slice(0, this.props.max).length,
       sportId: this.props.sportId,
-      //timer: this.setTimer(),
     });
+
+    if (!this.state.timerInitialized) {
+      this.resetTimer();
+      this.state = { timerInitialized: true };
+    } else {
+      clearInterval(this.state.timer);
+    }
   }
 
   //<--------------- DATA PARSING START ----------------->
