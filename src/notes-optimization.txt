@@ -1,0 +1,6 @@
+1.
+If more that one plugins are rendered and each fethes data from API, that is a lot of API calls. One API call for each component.
+If we make a wrapper for those plugins, and fetch data in the wrapper then pass it to the components, we reduce the number of API calls to one. Wrapper fetches data and passes it on. Then each component can parse or manipulate data as needed.
+
+2.
+If we create type or interface for only the data types/properties that we need in a component, we can reduce the amount of data getting passed inbetween the props.

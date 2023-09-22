@@ -27,4 +27,4 @@ Corner cases and known bug:
 - resposiveness needs imporevements. Grid system should be used
 - slow data load times
 
-- Class component MatchCarouselContainer was introduced, so it fetches data from API one single time (instead everytime for each component) for all the components that it contains. Had some problems with setting state from props for apiData and matchesData and matchesCount, so some function calls are redundant. For example: "this.props.matchesData.slice(0, this.props.max);", "this.props.matchesData.slice(0, this.props.max).length;"
+- Class component MatchCarouselContainer was introduced, so it fetches data from API one single time (instead everytime for each component) for all the components that it contains. Had some problems with setting state from props for apiData and matchesData and matchesCount, so some function calls are redundant. For example: "this.props.matchesData.slice(0, this.props.max);", "this.props.matchesData.slice(0, this.props.max).length;" Those function implementations are also redundant.

@@ -5,12 +5,10 @@
 }
 
 .btn-nav-wrapper {
-  /*position: relative;*/
   left: 0;
   width: 2rem;
   height: 100%;
   background-color: transparent;
-  /*border: 2px solid red;*/
   transition: all 150ms;
 }
 
@@ -36,7 +34,6 @@
 
 .btn-nav-next {
   left: 91.8%;
-  /*margin-left: -5px;*/
   border-top-right-radius: 50px;
   border-bottom-right-radius: 50px;
   color: white;
@@ -93,7 +90,6 @@
   min-height: 300px; /*300px*/
   overflow: hidden;
   border-radius: 8%;
-  /*border: 2px solid blueviolet;*/
 }
 
 .carousel-content {
@@ -101,9 +97,6 @@
   align-content: center;
   flex: 0 0 100%;
   display: inline-flex;
-  /*justify-content: flex-start;*/
-  /*overflow: hidden;*/
-  /*transform: translateX(-100%);*/
 }
 
 @media only screen and (max-width: 870px) {
@@ -127,10 +120,6 @@
 
 @media only screen and (max-width: 450px) {
   .carousel-content-wrapper {
-    /*
-    left: 41%;
-    transform: translateX(-50%);
-    */
     height: 40px;
     overflow: hidden;
     max-width: 270px;

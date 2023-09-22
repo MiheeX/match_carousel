@@ -39,7 +39,6 @@
   width: 25%;
   max-width: 200px;
   height: 30%;
-  /* border: 2px solid white;*/
   background-repeat: no-repeat;
   background-size: 55%;
   background-position-x: 50%;
@@ -147,18 +146,8 @@
   height: 500px;
 }
 
-/*
-.carousel-content::before {
-  content: "";
-  background-image: url("https://www.agernic.com/uploads/image-opacity.jpg");
-  background-repeat: no-repeat;
-  opacity: 0.4;
-  width: 100%;
-}
-*/
-
 .bckg-img {
-  background-repeat: no-repeat; /* Do not repeat the image */
+  background-repeat: no-repeat;
   background-size: 100%;
   width: 100%;
   height: 100%;
