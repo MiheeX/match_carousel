@@ -3,7 +3,6 @@ import imgPrematch from "../assets/bg-prematch.jpg";
 import imgPostmatch from "../assets/bg-postmatch.jpg";
 import imgLive from "../assets/bg-live.jpg";
 import "./Card.css";
-import MatchCarousel from "./MatchCarousel";
 import { getFlagUrl } from "../data/ApiFetch";
 
 class Card extends Component {
@@ -17,13 +16,14 @@ class Card extends Component {
   }
 
   writeImg(pSrc) {
+    const styleFilter = { filter: "brightness(0.6)" };
     return (
       <img
         className="bckg-img"
         src={pSrc}
         width="100%"
         height="100%"
-        style={{ filter: "brightness(0.6)" }} //BUG PRVI SLIDE NIMA BORDER RADIUSA
+        style={styleFilter} //BUG PRVI SLIDE NIMA BORDER RADIUSA
       />
     );
   }
@@ -109,8 +109,8 @@ class Card extends Component {
           //style={bckgImg}
           className={
             this.props.index === this.props.page
-              ? "carousel-content active bckg-img "
-              : "carousel-content hidden bckg-img "
+              ? "carousel-content bckg-img "
+              : "carousel-content bckg-img "
           } //slide
         >
           {this.setImage($matchData.status._id)}
