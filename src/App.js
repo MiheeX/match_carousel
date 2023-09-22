@@ -1,37 +1,13 @@
 import "./App.css";
-import MatchCarousel from "./components/MatchCarousel";
+import MatchCarouselContainer from "./components/MatchCarouselContainer";
 import { Component } from "react";
 import React from "react";
 
-/*
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-*/
 class App extends Component {
   render() {
     return (
       <>
-        {/*<MatchCarousel max={10} />*/}
-        <MatchCarousel sportId={1} />
-        <MatchCarousel sportId={2} />
+        <MatchCarouselContainer />
       </>
     );
   }

@@ -7,7 +7,7 @@
 
 * {
   font-family: myFont;
-  box-sizing: border-box;
+  /*box-sizing: border-box;*/
 }
 
 .league-name {
@@ -58,8 +58,8 @@
   left: 42%;
   transform: translateX(-43%);
   position: absolute;
-  display: block;
-  height: auto;
+  display: flex;
+  height: 125px;
   top: 30%;
   /*
   justify-content: center;
@@ -74,18 +74,30 @@
   */
 }
 
-.result-text {
+.result-text-0 {
   position: absolute;
   display: flexbox;
   flex: 1;
   font-size: 30px;
+  height: 125px;
   /*
   min-width: 150px;
   max-width: 180px;
   */
+  justify-content: center;
   color: white;
   text-align: center;
-  border: 2px solid white;
+}
+
+.result-text-100 {
+  position: absolute;
+  display: flexbox;
+  flex: 1;
+  font-size: 60px;
+  height: 125px;
+  color: white;
+  justify-content: center;
+  text-align: center;
 }
 
 .team-name {
@@ -116,9 +128,9 @@
   font-size: 30px;
   color: white;
   border: 2px solid white;
-  border-radius: 10px;
   left: 50%;
   transform: translateX(-50%);
+  border-radius: 10px;
 }
 
 .match-status > p {
@@ -150,9 +162,10 @@
 */
 
 .bckg-img {
-  border-radius: 8%;
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 @media only screen and (max-width: 870px) {
@@ -179,9 +192,12 @@
     font-size: 15px;
   }
 
-  .result-text {
-    font-size: 20px;
-    color: white;
+  .result-text-0 {
+    font-size: 18px;
+  }
+
+  .result-text-100 {
+    font-size: 30px;
   }
 
   .team-name {
@@ -214,9 +230,12 @@
     font-size: 10px;
   }
 
-  .result-text {
-    font-size: 13px;
-    color: white;
+  .result-text-0 {
+    font-size: 12px;
+  }
+
+  .result-text-100 {
+    font-size: 22px;
   }
 
   .team-name {
@@ -251,9 +270,12 @@
     font-size: 10px;
   }
 
-  .result-text {
-    font-size: 12px;
-    color: white;
+  .result-text-0 {
+    font-size: 10px;
+  }
+
+  .result-text-100 {
+    font-size: 18px;
   }
 
   .team-name {

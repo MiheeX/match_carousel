@@ -1,0 +1,31 @@
+src/assets/bg-live.jpg			- image used for single Card background when match is in live state
+src/assets/bg-postmatch.jpg.jpg		- image used for single Card background when match is in post match state
+src/assets/bg-prematch.jpg		- image used for single Card background when match is in pre match state
+
+src/components/Card.css			- Style for Card component
+src/components/Card.js			- Card component displays data for single match
+src/components/MatchCarousel.css		- Style for MatchCarousel component
+src/components/MatchCarousel.js		- MatchCarousel component. Gets and parses data for carousel Card components. Displays carousel made of Card components
+src/components/MatchCarouselWrapper.js	- Container for MatchCarousel components. Gets data from ApiFetch and passes on to single MatchCarousel components
+
+src/data/ApiFetch.js			- Fetches data from api.
+
+src/fonts/OpenSans.ttf			- Open Sans font
+
+src/html-test/asses			- same images as in "src/assets/"
+src/html-test/index.html		- single static webpage template for "match card"
+src/html-test/style.css			- style for "/html-test/index.html"
+
+src/App.css				- Style for App.js
+src/index.css				- Style for "/src/index.css"
+src/App.js				- Main component for rendering App
+src/index.js				- renders component and registers service workers
+src/reportWebVitals.js			- package for measuring performance of the app
+
+
+Corner cases and known bug:
+- if timer starts automatically upon setting state from constructor, app gets buggy with time. Needs reinplementation.
+- resposiveness needs imporevements. Grid system should be used
+- slow data load times
+
+- Class component MatchCarouselContainer was introduced, so it fetches data from API one single time (instead everytime for each component) for all the components that it contains. Had some problems with setting state from props for apiData and matchesData and matchesCount, so some function calls are redundant. For example: "this.props.matchesData.slice(0, this.props.max);", "this.props.matchesData.slice(0, this.props.max).length;"

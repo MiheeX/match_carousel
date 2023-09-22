@@ -9,27 +9,22 @@ class Card extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      matchStatus: 0,
-      realcategoryData: [],
-    };
+    this.state = {};
+
+    this.Flag = this.Flag.bind(this);
+    this.Result = this.Result.bind(this);
+    this.Team = this.Team.bind(this);
+    this.Image = this.Image.bind(this);
+    this.League = this.League.bind(this);
+    this.MatchStatus = this.MatchStatus.bind(this);
   }
 
   writeImg(pSrc) {
     const styleFilter = { filter: "brightness(0.6)" };
-    return (
-      <img
-        className="bckg-img"
-        src={pSrc}
-        width="100%"
-        height="100%"
-        style={styleFilter} //BUG PRVI SLIDE NIMA BORDER RADIUSA
-      />
-    );
+    return <img className="bckg-img" src={pSrc} style={styleFilter} />;
   }
 
   setImageSrc(pStatus) {
-    console.log({ imgPostmatch });
     switch (pStatus) {
       case 100:
         return imgPostmatch;
@@ -37,18 +32,6 @@ class Card extends Component {
         return imgPrematch;
       default:
         return imgLive;
-    }
-  }
-
-  setImage(pStatus) {
-    console.log({ imgPostmatch });
-    switch (pStatus) {
-      case 100:
-        return this.writeImg(imgPostmatch);
-      case 0:
-        return this.writeImg(imgPrematch);
-      default:
-        return this.writeImg(imgLive);
     }
   }
 
@@ -62,10 +45,14 @@ class Card extends Component {
         );
       case 0:
         return (
-          this.props.matchData._dt.time + "\r" + this.props.matchData._dt.date
+          "VS" +
+          " \r " +
+          this.props.matchData._dt.time +
+          " \r " +
+          this.props.matchData._dt.date
         );
       default:
-        if (!this.props.matchData.result.home == null) {
+        if (this.props.matchData.result.home !== null) {
           return (
             this.props.matchData.result.home +
             ":" +
@@ -85,6 +72,7 @@ class Card extends Component {
         return "GAMETIME";
     }
   }
+
   setStatusColor(pStatusId) {
     switch (pStatusId) {
       case 100:
@@ -96,65 +84,93 @@ class Card extends Component {
     }
   }
 
+  Image(props) {
+    switch (props.status) {
+      case 100:
+        return this.writeImg(imgPostmatch);
+      case 0:
+        return this.writeImg(imgPrematch);
+      default:
+        return this.writeImg(imgLive);
+    }
+  }
+
+  Flag(props) {
+    return (
+      <div
+        className={"flag flag-" + props.team}
+        style={{
+          backgroundImage: "url('" + getFlagUrl(props.teamUid) + "')",
+        }}
+      ></div>
+    );
+  }
+
+  Result(props) {
+    return (
+      <div className="result">
+        <p
+          className={
+            props.status_id === 0 ? "result-text-0" : "result-text-100"
+          }
+        >
+          {this.setResult(props.status_id)}
+        </p>
+      </div>
+    );
+  }
+
+  Team(props) {
+    return (
+      <p className={"team-name team-name-" + props.team}>{props.teamName}</p>
+    );
+  }
+
+  League(props) {
+    return (
+      <div>
+        <p className="league-name">
+          {props.tdata.name + "-" + props.tdata.seasontypename}
+        </p>
+        <p className="league-type">{props.rcdata.name}</p>
+      </div>
+    );
+  }
+
+  MatchStatus(props) {
+    return (
+      <div
+        className="match-status"
+        style={{
+          backgroundColor: this.setStatusColor(props.matchStatus._id),
+        }}
+      >
+        <p>{props.matchStatus.name.toUpperCase()}</p>
+      </div>
+    );
+  }
+
   render() {
     const $matchData = this.props.matchData;
     const $realCatData = this.props.rcData;
     const $tournamnetData = this.props.tData;
 
-    return (
-      //slideshow
-      <>
-        <div
-          key={this.props.index}
-          //style={bckgImg}
-          className={
-            this.props.index === this.props.page
-              ? "carousel-content bckg-img "
-              : "carousel-content bckg-img "
-          } //slide
-        >
-          {this.setImage($matchData.status._id)}
-          <div>
-            <p className="league-name">
-              {$tournamnetData.name + "-" + $tournamnetData.seasontypename}
-            </p>
-            <p className="league-type">{$realCatData.name}</p>
-          </div>
-          <div
-            className="flag flag-home"
-            style={{
-              backgroundImage:
-                "url('" + getFlagUrl($matchData.teams.home.uid) + "')",
-            }}
-          ></div>
-          <div
-            className="flag flag-away"
-            style={{
-              backgroundImage:
-                "url('" + getFlagUrl($matchData.teams.away.uid) + "')",
-            }}
-          ></div>
+    const ParentClassName =
+      this.props.index === this.props.page
+        ? "carousel-content bckg-img"
+        : "carousel-content bckg-img";
 
-          <div className="result">
-            <p className="result-text">
-              {/*this.props.matchData.result.home}:{this.props.matchData.result.away*/}
-              {this.setResult($matchData.status._id)}
-            </p>
-          </div>
-          <p className="team-name team-name-home">
-            {$matchData.teams.home.name}
-          </p>
-          <p className="team-name team-name-away">
-            {$matchData.teams.away.name}
-          </p>
-          <div
-            className="match-status"
-            style={{
-              backgroundColor: this.setStatusColor($matchData.status._id),
-            }}
-          >
-            <p>{$matchData.status.name.toUpperCase()}</p>
-          </div>
+    return (
+      <>
+        <div key={this.props.index} className={ParentClassName}>
+          <this.Image status={$matchData.status._id} />
+          <this.League rcdata={$realCatData} tdata={$tournamnetData} />
+          <this.Flag team="home" teamUid={$matchData.teams.home.uid} />
+          <this.Flag team="away" teamUid={$matchData.teams.away.uid} />
+          <this.Result status_id={$matchData.status._id} />
+          <this.Team team="home" teamName={$matchData.teams.home.name} />
+          <this.Team team="away" teamName={$matchData.teams.away.name} />
+          <this.MatchStatus matchStatus={$matchData.status} />
         </div>
       </>
     );

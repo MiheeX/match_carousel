@@ -1,8 +1,11 @@
+<!DOCTYPE html>
 <head>
   <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width" />
 </head>
 
 <div
+  class="carousel-content bckg-img"
   style="
     width: 850;
     height: 500;
@@ -16,21 +19,31 @@
     src="./assets/bg-live.jpg"
     width="100%"
     height="100%"
-    style="opacity: 0.8"
+    style="filter: brightness(0.6)"
   />
   <div>
     <p class="league-name">Naziv Lige</p>
     <p class="league-type">Tip lige</p>
   </div>
-  <div class="flag-left"></div>
-  <div class="flag-right"></div>
+  <div
+    class="flag flag-home"
+    style="
+      background-image: url('https://img.sportradar.com/ls/crest/big/en.png');
+    "
+  ></div>
+  <div
+    class="flag flag-away"
+    style="
+      background-image: url('https://img.sportradar.com/ls/crest/big/sl.png');
+    "
+  ></div>
 
   <div class="result">
-    <p class="result-text">1:0</p>
+    <p class="result-text-100">1:0</p>
   </div>
-  <p class="team-left">Naziv ekipe 1</p>
-  <p class="team-right">Naziv ekipe 2</p>
-  <div class="match-status">
-    <p>STATUS TEKME</p>
+  <p class="team-name team-name-home">Naziv ekipe 1</p>
+  <p class="team-name team-name-away">Naziv ekipe 2</p>
+  <div class="match-status" style="background-color: orange">
+    <p>2ND QUARTER</p>
   </div>
 </div>

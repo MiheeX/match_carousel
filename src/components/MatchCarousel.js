@@ -1,103 +1,44 @@
-import { Component, componentDidMount } from "react";
-import React from "react"; //zaradi compilerja, da ne javi napake pri <div> znotraj render/return
-import { CarouselData } from "../data/CarouselData";
+import { Component } from "react";
+import React from "react";
 import "./MatchCarousel.css";
-import {
-  fetchData,
-  getAndStoreDataApi,
-  /*
-  getTournamentsDataById,
-getRealCategoriesDataById,
-  getMatchesData,
-  _apiData,
-  _sportId,
-  */
-} from "../data/ApiFetch";
 import Card from "./Card";
 
 class MatchCarousel extends Component {
-  //<{}, { sportId: Number, max: Number }>
-  //construcotr, če delaš state in bind methode.
-  //constructor se pokliče pred mountanjem.
-  //component..didMount, componentDidMount
-
   constructor(props) {
-    //vedno najprej pokličeš super(props), pred katerimkoli drugim klicem. Drugače so this.props undefined v konstruktorju - potentialni bugi.
-    //constructor uporabiš za inicializacijo local state-a, ko mu daš vrednost this.state
-    //in za Binding event handler.
-    //v constructorju ne smeš klicat setState. Namesto tega, določi inicial state direktno to this.state.
     super(props);
 
     this.state = {
-      sportId: 1,
-      max: 10,
-      apiData: [],
-      matchesData: [],
-      realCategoryData: [],
-      matchesCount: 0,
-      dataIsRead: false,
+      sportId: undefined,
+      max: this.props.max, //instead of this.state.max, this.props.max is used
       page: 0,
-      timerCountdownSeconds: 4000,
-      timer: 0,
+      timer: 0, //this.setTimer(),
     };
-
-    //probaj dat getData v construcotr in spremeni setState v this.state={...}
 
     this.handleNext = this.handleNext.bind(this);
     this.handlePrev = this.handlePrev.bind(this);
     this.CarouselButtons = this.CarouselButtons.bind(this);
-    //this.handleDotsIndicator = this.handleDotsIndicator.bind(this);
-    this.dotIndicators = this.dotIndicators.bind(this);
+    this.DotsIndicator = this.DotsIndicator.bind(this);
+    this.InitCarouselData = this.InitCarouselData.bind(this);
   }
 
-  //getting and parsing matches data start
-  //schema: realcategories/tournamnets/matches/match(obj)
-  //get/parse matches initial data
-  getAndStoreData() {
-    /*
-    //ne dela ok
+  componentDidMount() {
     this.setState({
-      apiData: getAndStoreDataApi(this.props.sportId, this.props.max),
-      dataIsRead: true,
+      //matchesData: this.props.matchesData.slice(0, this.props.max),
+      //matchesCount: this.props.matchesData.slice(0, this.props.max).length,
+      sportId: this.props.sportId,
+      //timer: this.setTimer(),
     });
-    console.log("ApiDataTest:");
-    console.log(getAndStoreDataApi(this.props.sportId, this.props.max));
-*/
-
-    fetchData()
-      .then((data) => {
-        console.log("Loading data...");
-        const $matchesData = this.getMatchesData(this.props.sportId).slice(
-          0,
-          this.props.max
-        );
-        //make callback function, and move to components/data/ApiFetch
-        this.setState({
-          apiData: data.doc[0].data,
-          dataIsRead: true,
-          matchesData: $matchesData,
-          matchesCount: $matchesData.length,
-        });
-
-        console.log(data.doc[0].data);
-      })
-      .then(() => {
-        console.log("Data loaded!");
-      })
-      .catch((e) => console.log("error getting data: " + e));
   }
-
-  //API data fetch end
 
   //<--------------- DATA PARSING START ----------------->
   //getting and parsing matches data start
   //schema: realcategories/tournamnets/matches/match(obj)
+
   //get/parse matches initial data
   getRealCategoriesData(pSportId) {
-    const parsedData = this.state.apiData;
-    console.log("test modeling data");
-    console.log(parsedData);
-    var realCategoryData = [];
+    //const parsedData = this.state.apiData;
+    const parsedData = this.props.apiData;
+    let realCategoryData = [];
 
     if (pSportId === undefined) {
       parsedData.map((_data) => {
@@ -112,10 +53,7 @@ class MatchCarousel extends Component {
           realCategoryData = _data.realcategories;
         });
     }
-    console.log("realcategory data");
-    console.log(realCategoryData);
-    //setState ne sme biti v render funkciji
-    //this.setState({ realCategoryData: realCategoryData });
+
     return realCategoryData;
   }
 
@@ -123,7 +61,7 @@ class MatchCarousel extends Component {
   getTournamentsData(pSportId, pCountryId) {
     const $realCategoryData = this.getRealCategoriesData(pSportId);
 
-    var tournamentsData = [];
+    let tournamentsData = [];
     if (pCountryId === undefined) {
       $realCategoryData.map((_data) => {
         _data.tournaments.map((_data2) => {
@@ -137,32 +75,29 @@ class MatchCarousel extends Component {
           tournamentsData = _data.tournaments;
         });
     }
-    console.log("tournaments data:...");
-    console.log(tournamentsData);
+
     return tournamentsData;
   }
 
   //get multiple matches data, filtered by sport_id(sport_id) and country_id(realcategory_id)
   getMatchesData(pSportId, pCountryId) {
-    var matchesData = [];
+    let $matchesData = [];
 
     this.getTournamentsData(pSportId, pCountryId).map((_data) => {
       _data.matches.map((_data2) => {
-        matchesData.push(_data2);
+        $matchesData.push(_data2);
       });
     });
-    //console.log("outside data matches data:...");
-    //console.log(matchesData);
-    console.log(matchesData);
-    //this.setState({ matchesCount: matchesData.length });
-    return matchesData;
+
+    return $matchesData;
   }
 
+  //DATA GETTERS START
   //Realcategories data getter
   getRealCategoriesDataById(pRealCatId) {
-    var realCategoryData = [];
+    let realCategoryData = [];
 
-    this.getRealCategoriesData(this.props.sportId) //local props
+    this.getRealCategoriesData(this.props.sportId)
       .filter((filteredData) => filteredData._id === pRealCatId)
       .map((_data) => {
         realCategoryData = _data;
@@ -170,49 +105,42 @@ class MatchCarousel extends Component {
     return realCategoryData;
   }
 
-  //DATA GETTERS
   //Tournaments data getter
   getTournamentsDataById(pTournamentId) {
-    var tournamentData = [];
+    let tournamentData = [];
 
-    this.getTournamentsData(this.props.sportId) //local props
+    this.getTournamentsData(this.props.sportId)
       .filter((filteredData) => filteredData._id === pTournamentId)
       .map((_data) => {
         tournamentData = _data;
       });
+
     return tournamentData;
   }
 
-  //matches data getter
+  //Matches data getter
   //Get single match data by "_id"
   getMatchDataById(pMatchId) {
-    var matchData = [];
+    let matchData = [];
 
-    this.getMatchesData()
+    this.props.matchesData
       .filter((filteredData) => filteredData._id === pMatchId)
       .map((_data) => {
         matchData = _data;
       });
-    console.log("Single match data...");
-    console.log(matchData);
+
     return matchData;
   }
-  //getting and parsing matches data end
+  //DATA GETTERS END
   //<---------- DATA PARSING END ----------------->//
 
-  componentDidMount() {
-    if (!this.state.dataIsRead) {
-      console.log("reading data...");
-      this.getAndStoreData();
-    }
-    //this.resetTimer();
-    //this.HandleAutoChangeSLides();
-  }
-
-  //button handles start
+  //<---------- BUTTON HANDLERS START ----------------->//
   handleNext() {
+    const matchesCount =
+      this.props.matchesData.slice(0, this.props.max).length - 1;
     let handledPage = this.state.page;
-    if (!(handledPage + 1 >= this.state.matchesCount)) {
+
+    if (!(handledPage >= matchesCount)) {
       handledPage += 1;
     } else {
       handledPage = 0;
@@ -223,11 +151,14 @@ class MatchCarousel extends Component {
   }
 
   handlePrev() {
+    const matchesCount =
+      this.props.matchesData.slice(0, this.props.max).length - 1;
     let handledPage = this.state.page;
-    if (!(handledPage - 1 < 0)) {
+
+    if (!(handledPage <= 0)) {
       handledPage -= 1;
     } else {
-      handledPage = this.state.matchesCount - 1;
+      handledPage = matchesCount;
     }
 
     this.setState({ page: handledPage });
@@ -236,22 +167,21 @@ class MatchCarousel extends Component {
 
   handleDotsIndicator(index) {
     this.setState({ page: index });
-
     this.resetTimer();
-
-    console.log("dot index:" + index);
   }
+  //<---------- BUTTON HANDLERS END ----------------->//
 
-  dotIndicators() {
+  DotsIndicator() {
+    const matchesCount = this.props.matchesData.slice(0, this.props.max).length;
     let indicators = [];
-    for (let i = 0; i < this.state.matchesCount; i++) {
-      indicators.push(this.dotIndicator(i));
+    for (let i = 0; i < matchesCount; i++) {
+      indicators.push(this.dotIndicatorButton(i));
     }
 
     return indicators;
   }
 
-  dotIndicator(index) {
+  dotIndicatorButton(index) {
     return (
       <button
         key={index}
@@ -272,112 +202,79 @@ class MatchCarousel extends Component {
           onClick={this.handlePrev}
           className="btn-nav-wrapper btn-nav btn-nav-prev"
         >
-          <i className="fa fa-chevron-left">{"<"}</i>
+          <i className="fa fa-chevron-left"></i>
         </button>
         <button
           onClick={this.handleNext}
           className="btn-nav-wrapper btn-nav btn-nav-next"
         >
-          <i className="fa fa-chevron-right">{">"}</i>
+          <i className="fa fa-chevron-right"></i>
         </button>
         <span className="dot-indicators">
-          <this.dotIndicators />
+          <this.DotsIndicator />
         </span>
       </>
     );
   }
-  // button handles end
 
-  //test functions. Works OK, but can't reset it easily.. todo...
-  ///test test start
-  HandleAutoChangeSLides() {
-    var interval = this.state.timerCountdownSeconds;
-    var expected = Date.now();
-    var stateTimerCountdownSeconds = this.state.timerCountdownSeconds;
-    const $that = this;
-    const $handleNext = this.handleNext;
-    this.setState({ timeoutID: setTimeout(step, interval) });
+  setTimer() {
+    let timer = setInterval(() => {
+      this.handleNext();
+    }, 4000); //+1s = carousel transition
 
-    function step() {
-      var dt = Date.now() - expected;
-      if (dt > interval) {
-        //not ok
-      }
-      console.log("should print every interval ms");
-      console.log(interval);
-      $handleNext();
-
-      expected += interval;
-      setTimeout(step, Math.max(0, interval - dt));
-    }
-    console.log("timeoutID: " + this.state.timeoutID);
+    return timer;
   }
-  //test end test end
 
   resetTimer() {
-    let $timer = setInterval(() => {
-      this.handleNext();
-    }, 4000);
+    let $timer = this.setTimer();
 
     clearInterval(this.state.timer);
     this.setState({ timer: $timer });
   }
 
-  //set and use data
+  //set Card components and pass data
   InitCarouselData() {
     let vCarouselData = [];
+    const $matchesData = this.props.matchesData;
+    const slicedData = $matchesData.slice(0, this.props.max);
+    const length = slicedData.length;
 
-    var $length = this.state.matchesCount;
-    for (let i = 0; i < $length; i++) {
-      vCarouselData.push(this.CarouselData(i));
-      console.log("carouselData length:" + $length + "and i:" + i);
+    for (let i = 0; i < length; i++) {
+      vCarouselData.push(this.carouselDataCardComponent(i));
     }
-
-    //vCarouselData = this.getMatchesData(1);
-
     return vCarouselData;
   }
-  //
 
-  CarouselData(pIndex) {
-    var $matchesData = this.state.matchesData[pIndex];
+  carouselDataCardComponent(pIndex) {
+    //const $matchesData = this.state.matchesData[pIndex];
+    const $matchesData = this.props.matchesData.slice(0, this.props.max);
+    const $matchData = $matchesData[pIndex];
 
     return (
       <Card
         index={pIndex}
         key={pIndex}
         page={this.state.page}
-        matchData={$matchesData} //če ne prikaže, je lahko tukaj pri var problem
-        rcData={this.getRealCategoriesDataById($matchesData._rcid)}
-        tData={this.getTournamentsDataById($matchesData._tid)}
+        matchData={$matchData}
+        rcData={this.getRealCategoriesDataById($matchData._rcid)}
+        tData={this.getTournamentsDataById($matchData._tid)}
       />
     );
   }
 
   doRender() {
+    const slideCarousel = {
+      transform: "translateX(-" + this.state.page * 100 + "%)",
+    };
+
     return (
       <>
-        {/*<head>
-          <meta name="viewport" content="width=device-width" />
-        </head>
-    */}
-        <div className="carousel-container">
-          {/*content*/}
-          <div className="carousel-wrapper">
-            {/*carousel-content*/}
-            <div className="carousel-content-wrapper">
-              {/*slideshow*/}
-              <div
-                className="carousel-content"
-                style={{
-                  transform: "translateX(-" + this.state.page * 100 + "%)",
-                }}
-              >
-                {/*Slides (slideshow-wrapper)*/}
-                {this.InitCarouselData()}
-              </div>
-              <this.CarouselButtons />
+        <div className="carousel-wrapper">
+          <div className="carousel-content-wrapper">
+            <div className="carousel-content" style={slideCarousel}>
+              <this.InitCarouselData />
             </div>
+            <this.CarouselButtons />
           </div>
         </div>
       </>
@@ -389,7 +286,6 @@ class MatchCarousel extends Component {
   }
 }
 
-//izven class componenta. je to ok?
 MatchCarousel.defaultProps = {
   max: 10,
   sportId: undefined,
